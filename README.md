@@ -102,3 +102,9 @@ file-loader 和 url-loader 可以接收并加载任何文件，包括字体（�
 
 ### @vue/cli
 当前目录自动推导入口文件——入口可以是 main.js、index.js、App.vue 或 app.vue 中的一个
+
+### promise语法
+1.解决回调地狱（Callback Hell）问题，使得多层嵌套回调变的扁平，称为类似链式调用的形式
+不断的调用promise对象的then方法来完成回调的嵌套（前一个方法要返回需要回调的函数）
+
+2. 方便在上述场景下捕获异常
