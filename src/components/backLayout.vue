@@ -2,7 +2,7 @@
   <el-container class="container">
     <el-header class="header">Header</el-header>
     <el-container>
-      <el-aside width="200px" class="aside">Aside</el-aside>
+      <el-aside class="aside" width="20vw">Aside</el-aside>
       <el-container>
         <el-main class="main">Main</el-main>
         <el-footer class="footer">Footer</el-footer>
@@ -24,7 +24,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .container{
-    max-height: 500px;
+    height: 100vh;
   }
   .header{
     background-color: #33CCCC;
@@ -33,7 +33,6 @@ export default {
     background-color: #006363;
   }
   .aside{
-    max-height: 100%;
     background-color: #009999;
   }
   .footer{
