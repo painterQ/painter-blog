@@ -1,3 +1,6 @@
+<!--
+使用vw和vh做单位可以全屏，另一种方法是设置html宽度和高度为100%
+--->
 <template>
   <el-container class="container">
     <el-header class="header">Header</el-header>
