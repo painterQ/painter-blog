@@ -120,3 +120,44 @@ file-loader 和 url-loader 可以接收并加载任何文件，包括字体（�
 0.导入Vue和Vue Router，使用Vue.use(VueRouter)
 1.将组件 (components) 映射到路由 (routes)
 2.告诉 Vue Router 在哪里渲染它们。
+
+### Vue模板语法:插值、指令、修饰符 :[aaa].modifier="bbb"
+支持任何js表达式，不论是指令中还是Mustache语法中。但是这是一个沙盒环境，不能访问外部的全局变量，除了白名单中的Date和Math。
+v-html,不能复合使用模板
+v-once
+v-bind  ===> :
+v-on ===> @
+v-if
+HTML语法对指令的影响：HTML要求attr的名称不区分大小写，而且不能有字符：比如空格和引号
+    属性名称应该使用小写，属性值永远加引号（双引号或者单引号）（所以自定义的bind应该返回字符串）
+动态指令，可以使用```v-bind:[attributeName]="url"```的语法动态改变指令，attributeName也应该是一个js表达式，但值必须是字符串或null
+指令修饰符
+    指令后可以增加修饰符，例如```v-on:submit.prevent="onSubmit"```
+    prevent
+### Vue基础
+数据监听（响应式的数据）
+事件监听
+自定义事件和自己触发事件
+    $emit('事件名',抛出值)
+    事件可以携带抛出值
+双向绑定
+    v-module = v-bind + v-on
+    bind的是value属性，on的是input事件，事件处理是把value设置为事件抛出值
+   
+动态组件
+插槽和内容分发
+    如果自定义组件没有包含一个 <slot> 元素，则该组件起始标签和结束标签之间的任何内容都会被抛弃。
+    因为Vue不知道该把内容放到解析后模板的哪里
+
+### 渲染函数
+### 实例属性
+$data, vm代理
+$props,vm代理
+$el
+$options
+$parent 父实例,可能没有
+$root 根实例，可能是自己
+$children
+$slots
+$ref
+  
