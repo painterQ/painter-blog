@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import {Aside, Button, Col, Container, Footer, Header, Main, Row} from "element-ui";
-
+import {Menu,Submenu,MenuItemGroup,MenuItem} from "element-ui";
 const routes = [
     {
         path: '/home',
@@ -26,6 +26,12 @@ Vue.use(Footer);
 Vue.use(Main);
 Vue.use(Aside);
 Vue.use(Container);
+
+Vue.use(Menu);
+Vue.use(MenuItem);
+Vue.use(MenuItemGroup);
+Vue.use(Submenu);
+
 
 Vue.use(VueRouter);
 

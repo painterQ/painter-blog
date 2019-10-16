@@ -7,23 +7,29 @@ el-container el-aside el-header el-footer
     <el-header class="header">Header</el-header>
     <el-container>
       <el-aside class="aside" width="20vw">
-        <router-link to="/home">HOME</router-link>
-        <router-link to="/second">SECOND</router-link>
+        <painter-aside></painter-aside>
       </el-aside>
       <el-container>
         <el-main class="main">
           <router-view></router-view>
         </el-main>
-        <el-footer class="footer">Footer</el-footer>
+        <el-footer class="footer">
+          <painter-footer></painter-footer>
+        </el-footer>
       </el-container>
     </el-container>
   </el-container>
 </template>
 
 <script>
-
+import painterFooter from "@/components/footer";
+import painterAside from "@/components/aside"
 export default {
   name: 'layout',
+  components: {
+    painterFooter,
+    painterAside,
+  },
   props: {
     msg: String
   }
