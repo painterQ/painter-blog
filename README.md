@@ -118,8 +118,11 @@ file-loader 和 url-loader 可以接收并加载任何文件，包括字体（�
 ### Vue Router 笔记
 通过组合组件来组成应用程序，当你要把 Vue Router 添加进来，我们需要做的是，
 0.导入Vue和Vue Router，使用Vue.use(VueRouter)
-1.将组件 (components) 映射到路由 (routes)
+1.***将组件 (components) 映射到路由 (routes)***
 2.告诉 Vue Router 在哪里渲染它们。
+
+创建一个Router实例，然后作为选项对象的属性传入根Vue
+创建Router实例时，需要传入一个路由配置数组，有path和component
 
 ### Vue模板语法:插值、指令、修饰符 :[aaa].modifier="bbb"
 支持任何js表达式，不论是指令中还是Mustache语法中。但是这是一个沙盒环境，不能访问外部的全局变量，除了白名单中的Date和Math。
@@ -144,7 +147,10 @@ HTML语法对指令的影响：HTML要求attr的名称不区分大小写，而�
     v-module = v-bind + v-on
     bind的是value属性，on的是input事件，事件处理是把value设置为事件抛出值
    
-动态组件
+动态组件 
+    <component> + is
+    <keep-alive> 缓存失活的组件
+异步组件
 插槽和内容分发
     如果自定义组件没有包含一个 <slot> 元素，则该组件起始标签和结束标签之间的任何内容都会被抛弃。
     因为Vue不知道该把内容放到解析后模板的哪里
