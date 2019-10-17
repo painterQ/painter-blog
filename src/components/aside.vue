@@ -42,6 +42,12 @@
 
 
 <script>
+    import Vue from 'vue'
+    import {Menu,Submenu,MenuItemGroup,MenuItem} from "element-ui";
+    Vue.use(Menu);
+    Vue.use(MenuItem);
+    Vue.use(MenuItemGroup);
+    Vue.use(Submenu);
     export default {
         name: 'painter-aside',
         methods: {
