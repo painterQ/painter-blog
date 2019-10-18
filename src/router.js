@@ -3,14 +3,15 @@ import VueRouter from 'vue-router'
 import {Aside, Button, Col, Container, Footer, Header, Main, Row } from "element-ui";
 
 import painterSetting from "./components/setting"
+import tinyMEC from "./components/addFile"
 const routes = [
     {
         path: '/',
         component: painterSetting
     },
     {
-        path: '/second',
-        component: Button
+        path: '/addFile',
+        component: tinyMEC
     },
 ];
 

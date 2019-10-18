@@ -8,10 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^3.0.1",
     "cnpm": "^6.1.0",
     "core-js": "^2.6.5",
     "element-ui": "latest",
     "mockjs": "^1.0.1-beta3",
+    "tinymce": "^5.1.0",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3"
   },
