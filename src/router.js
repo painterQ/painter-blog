@@ -2,16 +2,29 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import {Aside, Button, Col, Container, Footer, Header, Main, Row } from "element-ui";
 
-import painterSetting from "./components/setting"
-import tinyMEC from "./components/addFile"
+import painterSetting from "@/components/setting"
+import tinyMEC from "@/components/document"
+import notFound from "@/components/page404"
 const routes = [
     {
         path: '/',
+        redirect : '/home',
+    },
+    {
+        path: '/home',
         component: painterSetting
     },
     {
-        path: '/addFile',
-        component: tinyMEC
+        path: '/document',
+        component: tinyMEC,
+        props: {
+            height: 500,
+        }
+    },
+    /*含有通配符的路由应该放在最后,谁先定义的，谁的优先级就最高*/
+    {
+        path: '*',
+        component: notFound
     },
 ];
 

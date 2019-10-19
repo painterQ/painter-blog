@@ -11,7 +11,9 @@ el-container el-aside el-header el-footer
       </el-aside>
       <el-container>
         <el-main class="main">
-          <router-view></router-view>
+          <div class="main-container">
+            <router-view></router-view>
+          </div>
         </el-main>
         <el-footer class="footer">
           <painter-footer></painter-footer>
@@ -45,12 +47,22 @@ export default {
     background-color: #33CCCC;
   }
   .main {
-    background-color: #006363;
+    padding: 0;
   }
+
+  .main-container{
+    background-color: transparent;
+    max-width: 1024px;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
   .aside{
     background-color: #009999;
   }
   .footer{
     background-color: #5CCCCC;
   }
+
+
 </style>
