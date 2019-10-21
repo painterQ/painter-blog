@@ -5,6 +5,8 @@ import {Aside, Button, Col, Container, Footer, Header, Main, Row } from "element
 import painterSetting from "@/components/setting"
 import tinyMEC from "@/components/document"
 import notFound from "@/components/page404"
+import painterManager from "@/components/manage"
+
 const routes = [
     {
         path: '/',
@@ -16,15 +18,20 @@ const routes = [
     },
     {
         path: '/document',
-        component: tinyMEC,
-        props: {
-            height: 500,
-        }
+        component: tinyMEC
+    },
+    {
+        path: '/manage',
+        component: painterManager
+    },
+    {
+        path: '/404',
+        component: notFound
     },
     /*含有通配符的路由应该放在最后,谁先定义的，谁的优先级就最高*/
     {
         path: '*',
-        component: notFound
+        redirect: '/404'
     },
 ];
 

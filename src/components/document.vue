@@ -1,24 +1,27 @@
 <template>
-    <div class="tinymce-editor">
-        <el-form ref="form" :model="form" label-width="80px">
-            <el-button id="release" class="editor-button">发布</el-button>
-            <el-button id="save" class="editor-button">保存草稿</el-button>
-            <el-button id="delete" class="editor-button">删除</el-button>
-            <el-input type="text" placeholder="请输入标题" class="editorInput"
-                      id="tital" maxlength="30" show-word-limit
-                      v-model="tital"
-                      request/>
-            <el-input type="text" id="path" v-model="path" class="editorInput"
+    <div>
+        <el-divider class= "line" content-position="left">撰写文章</el-divider>
+        <el-form ref="form" label-width="80px" id="tinymce-editor-form">
+
+            <div class="operation-flex-container">
+                <el-button id="release" >发布</el-button>
+                <el-button id="save" >保存草稿</el-button>
+                <el-button id="delete" >删除</el-button>
+                <el-input type="text" placeholder="请输入标题"
+                          id="title" maxlength="30" show-word-limit
+                          v-model="tital"/>
+            </div>
+            <el-input type="text" id="path" v-model="path" class="editor-input"
                       placeholder="请输入路径">
                 <template slot="prepend">http://www.xixi201314.cn/</template>
                 <template slot="append">.html</template>
             </el-input>
-                <editor v-model="myValue"
-                        :init="init"
-                        :disabled="disabled"
-                        name="document"
-                        @onClick="onClick">
-                </editor>
+            <editor v-model="myValue"
+                    :init="init"
+                    :disabled="disabled"
+                    name="document"
+                    @onClick="onClick">
+            </editor>
         </el-form>
     </div>
 </template>
@@ -59,10 +62,6 @@
             toolbar: {
                 type: [String, Array],
                 default: 'undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table | removeformat'
-            },
-            height: {
-                type: Number,
-                default: 300
             }
         },
         data() {
@@ -74,7 +73,7 @@
                     content_css: `${this.baseUrl}/tinymce/skins/content/default/content.css`,
                     // skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide-dark`, // 暗色系
                     // content_css: `${this.baseUrl}/tinymce/skins/content/dark/content.css`, // 暗色系
-                    height: this.height,
+                    height: 500,
                     plugins: this.plugins,
                     toolbar: this.toolbar,
                     branding: false,
@@ -92,7 +91,7 @@
             }
         },
         mounted() {
-            tinymce.init({})
+            tinymce.init({});
         },
         methods: {
             // 添加相关的事件，可用的事件参照文档=> https://github.com/tinymce/tinymce-vue => All available events
@@ -117,13 +116,32 @@
 </script>
 
 <style scoped>
-    .editor-button {
-        max-width: 6em;
-        padding: 1em;
-        margin: 1em 2em 1em 0;
+
+    .operation-flex-container{
+        display:-webkit-flex;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
-    .editorInput {
-        margin: 5px 0;
+    .operation-flex-container > button{
+        width: 10%;
+    }
+
+    .operation-flex-container > div {
+        width: 60%;
+    }
+
+    #tinymce-editor-form > div {
+        margin: 7px 0 0 0;
+    }
+
+    .line {
+        margin: 2em 0 1em 0;
+    }
+    .line >*{
+        font-size: 1.5em;
+        font-size: large;
+        background-color: #fafafa;
     }
 </style>

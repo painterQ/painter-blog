@@ -1,6 +1,6 @@
 <template>
     <div id="footer">
-        Copyright Painter Qiao. 浙ICP备19042136号.
+        <span>Copyright Painter Qiao. 浙ICP备19042136号.</span>
     </div>
 </template>
 
@@ -15,9 +15,13 @@
 
 <style scoped>
     #footer{
-        width: 50%;
-        margin: 20px auto;
         font-size: 0.6em;
         text-align: center;
+        box-shadow : 0 -2px 4px rgba(0,0,0,0.1);
+        z-index: 10;
+    }
+    #footer > span{
+        display: inline-block;
+        margin-top: 0.3em;
     }
 </style>
