@@ -1,7 +1,8 @@
 <template>
     <el-menu
             default-active="1"
-            class="el-menu-vertical"
+            class="menu"
+            ref="menu"
             @open="handleOpen"
             @close="handleClose"
             @select="handleSelect"
@@ -24,8 +25,9 @@
             <i class="el-icon-location"></i>
             <span slot="title">消息</span>
         </el-menu-item>
+        <div id="aside-switch" @click="switchAside">|</div>
+        <div class="footer">Copyright Painter Qiao.<br/> 浙ICP备19042136号</div>
     </el-menu>
-
 </template>
 
 
@@ -39,6 +41,11 @@
     Vue.use(Submenu);
     export default {
         name: 'painter-aside',
+        data(){
+          return{
+              asideSwitch: true
+          }
+        },
         methods: {
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
@@ -74,6 +81,26 @@
                 } catch (e) {
                     console.log(e)
                 }
+            },
+            switchAside(){
+                this.asideSwitch = !this.asideSwitch;
+            },
+        },
+        watch:{
+            asideSwitch(val){
+                console.log("call")
+                let m = this.$refs['menu'].$el;
+                if(!val){
+                    for(let e of m.getElementsByTagName("span")){
+                        e.style.display = "none"
+                        e.parentElement.style.width = 'auto'
+                    }
+                    return;
+                }
+                for(let e of m.getElementsByTagName("span")){
+                    e.style.display = "inline"
+                    e.parentElement.style.width = '20vw'
+                }
             }
         }
     }
@@ -85,7 +112,39 @@
 
     }
 
-    .el-menu-vertical {
+    .menu {
         height: 100%;
+    }
+
+    .menu > *{
+        width: 20vw;
+    }
+
+    /*learn: position 相对于上一个非static的祖先元素*/
+    /*learn: z-index 越大越靠近用户*/
+    #aside-switch{
+        position: absolute;
+        width: 20px;
+        height: 60px;
+        top: 49%;
+        right: -10px;
+        z-index: 1;
+        color: #f0f0f0;
+    }
+
+    /*learn: 伪类hover cursor设置鼠标指针形状*/
+    #aside-switch:hover{
+        cursor:pointer;
+        color: #3399ff;
+    }
+
+    .footer{
+        height: 40px;
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        font-size: 0.5em;
+        box-shadow : 0 -2px 4px rgba(0,0,0,0.1);
+        z-index: 10;
     }
 </style>
