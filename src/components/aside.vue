@@ -1,6 +1,5 @@
 <template>
     <el-menu
-            default-active="1"
             class="menu"
             ref="menu"
             @open="handleOpen"
@@ -41,11 +40,10 @@
     Vue.use(Submenu);
     export default {
         name: 'painter-aside',
-        data(){
-          return{
-              asideSwitch: true
-          }
-        },
+        // data(){
+        //   return{
+        //   }
+        // },
         methods: {
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
@@ -61,6 +59,7 @@
                             replace ?
                                 this.$router.replace('/home') :
                                 this.$router.push('/home');
+                            this.$store.commit('changeIndex',index);
                             return;
                         case "2":
                             /*learn: 向 history 栈添加一个新的记录*/
@@ -68,11 +67,13 @@
                             replace ?
                                 this.$router.replace('/document') :
                                 this.$router.push('/document');
+                            this.$store.commit('changeIndex',index);
                             return;
                         case "3":
                             replace ?
                                 this.$router.replace('/manage') :
                                 this.$router.push('/manage');
+                            this.$store.commit('changeIndex',index);
                             return;
                         default:
                             console.log(index, indexPath);
@@ -83,25 +84,30 @@
                 }
             },
             switchAside(){
-                this.asideSwitch = !this.asideSwitch;
+                this.$store.commit('changeAsideSwitch');
             },
         },
+        /*learn: computed watch*/
         watch:{
-            asideSwitch(val){
-                console.log("call")
+            "$store.state.viewState.asideSwitch":function(){
                 let m = this.$refs['menu'].$el;
-                if(!val){
-                    for(let e of m.getElementsByTagName("span")){
-                        e.style.display = "none"
-                        e.parentElement.style.width = 'auto'
+                let ec = m.getElementsByTagName("span")
+                if(!this.$store.state.viewState.asideSwitch){
+                    for(let e of ec){
+                        e.style.display = "none";
+                        e.parentElement.style.width = 'auto';
                     }
-                    return;
+                    return null;
                 }
-                for(let e of m.getElementsByTagName("span")){
-                    e.style.display = "inline"
-                    e.parentElement.style.width = '20vw'
+                for(let e of ec){
+                    e.style.display = "inline";
+                    e.parentElement.style.width = '20vw';
                 }
+                return null;
             }
+        },
+        mounted(){
+            this.$refs['menu'].defaultActive = this.$store.state.viewState.index
         }
     }
 </script>
