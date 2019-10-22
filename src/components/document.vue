@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="document">
         <el-divider class= "line" content-position="left">撰写文章</el-divider>
         <el-form ref="form" label-width="80px" id="tinymce-editor-form">
 
@@ -116,7 +116,10 @@
 </script>
 
 <style scoped>
-
+    #document{
+        max-width: 1024px;
+        margin: 3em auto;
+    }
     .operation-flex-container{
         display:-webkit-flex;
         display: flex;

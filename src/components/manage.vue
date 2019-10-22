@@ -29,6 +29,8 @@
 
 <style scoped>
     #manager {
+        max-width: 1024px;
+        margin: 3em auto;
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;

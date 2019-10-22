@@ -203,7 +203,8 @@
     }
 
     .setting {
-        margin: 3em 0;
+        margin: 3em auto;
+        max-width: 990px;
     }
 
     .setting-avatar {
