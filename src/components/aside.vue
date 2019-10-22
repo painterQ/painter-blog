@@ -26,8 +26,8 @@
             <span slot="title">消息</span>
         </el-menu-item>
         <div id="aside-switch" @click="switchAside">|</div>
+        <div class="footer">Copyright Painter Qiao.<br/> 浙ICP备19042136号</div>
     </el-menu>
-
 </template>
 
 
@@ -136,5 +136,15 @@
     #aside-switch:hover{
         cursor:pointer;
         color: #3399ff;
+    }
+
+    .footer{
+        height: 40px;
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        font-size: 0.5em;
+        box-shadow : 0 -2px 4px rgba(0,0,0,0.1);
+        z-index: 10;
     }
 </style>
