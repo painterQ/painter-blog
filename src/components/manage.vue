@@ -1,7 +1,9 @@
 <template>
     <div id="manager" ref="manager">
         <div class="art" ref="art">
-            第一个文章
+            <div>
+                第一篇文章
+            </div>
         </div>
     </div>
 </template>
@@ -16,10 +18,9 @@
             * */
             // this.$refs["art"].display = "block";
             let els = [];
-            for(let i = 0; i< 20; i++){
+            for(let i = 0; i< 40; i++){
                 els[i] = this.$refs["art"].cloneNode(true);
-                els[i].innerHTML = "文章".repeat(Math.floor(Math.random() * 100));
-                els[i].style.height = Math.random() * 100;
+                els[i].firstChild.innerHTML = "文章".repeat(Math.floor(Math.random() * 100));
                 document.getElementById("manager").appendChild(els[i]);
             }
         }
@@ -30,17 +31,23 @@
     #manager {
         display: flex;
         flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-items:flex-start;
     }
 
     .art {
-        position: relative;
-        top: 0;
         border-radius: 4px;
         width: 10em;
+        overflow-y: hidden;
         margin: 1em 0.5em;
         padding: 1em;
         background-color: #fff;
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
+    .art > *{
+        display: block;
     }
 </style>
