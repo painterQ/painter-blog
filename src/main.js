@@ -4,6 +4,7 @@ import App from './App.vue'
 import './api/login'
 import './mock.js'
 import router from './router.js'
+import store from './store.js'
 
 Vue.config.productionTip = false;
 
@@ -11,4 +12,5 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   render: h => h(App),
+  store,
 }).$mount('#app')
