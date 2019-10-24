@@ -20,7 +20,7 @@
             let els = [];
             for(let i = 0; i< 40; i++){
                 els[i] = this.$refs["art"].cloneNode(true);
-                els[i].firstChild.innerHTML = "文章".repeat(Math.floor(Math.random() * 100));
+                els[i].firstChild.innerHTML = i + "\n文章".repeat(Math.floor(Math.random() * 100));
                 document.getElementById("manager").appendChild(els[i]);
             }
         }
@@ -31,12 +31,8 @@
     #manager {
         max-width: 1024px;
         margin: 3em auto;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-        align-items:flex-start;
+        column-count:4;
+        column-gap: 2em;
     }
 
     .art {
@@ -47,9 +43,17 @@
         padding: 1em;
         background-color: #fff;
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        break-inside: avoid;
+    }
+
+    .art:hover{
+        position: relative;
+        top: 5px;
+        box-shadow: 2px 7px 4px rgba(0, 0, 0, 0.1);
     }
 
     .art > *{
         display: block;
+        cursor: pointer;
     }
 </style>
