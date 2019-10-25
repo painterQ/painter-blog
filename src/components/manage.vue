@@ -1,5 +1,8 @@
 <template>
     <div id="manager" ref="manager">
+        <div class="col" ref="col">
+
+        </div>
         <div class="art" ref="art">
             <div>
                 第一篇文章
@@ -18,41 +21,42 @@
             *
             * 这样实现瀑布流的缺点是，每列宽度是固定的，有可能导致很宽的横向间隔
             * */
-            let gap = 10; //垂直gap
             let w = this.$refs["manager"].clientWidth;
-            let mod = Math.floor(w/200);
-            let g = (w - mod * 200)/(mod -1) //水平的间距
+            let colNum = Math.floor(w/250);
+            let colWidth = 250 + Math.floor((w - colNum * 250)/colNum);
 
-            //初始化height
-            let height = [this.$refs["art"].offsetHeight];
-            for (let i = 1;i < mod;i ++){
-                height[i] = -10
+            console.log(w,colNum,colWidth);
+
+            //生产col
+            let doc = this.$el.ownerDocument
+            let cols = []
+            for(let i = 0;i < colNum;i++){
+                cols[i] = doc.createElement('div');
+                cols[i].className = 'col';
+                cols[i].style.width = colWidth + 'px';
+                this.$refs['manager'].append(cols[i]);
             }
 
+            //min函数
+            let min = function () {
+                let min = 65535, r = 0;
+                for(let i in cols){
+                    if (cols[i].offsetHeight < min){
+                        min = cols[i].offsetHeight;
+                        r = i;
+                    }
+                }
+                console.log('min:',r)
+                return r;
+            };
+            //生产art
             let els = [];
             for(let i = 0; i< 40; i++){
                 els[i] = this.$refs["art"].cloneNode(true);
                 els[i].firstChild.innerHTML = i + "\n文章".repeat(Math.floor(Math.random() * 100));
+                cols[min()].appendChild(els[i]);
             }
-            let min = function () {
-                let r = 0;
-                for(let i=0, l = 99999999999;i<4;i++){
-                    if(height[i] < l){
-                        l = height[i]
-                        r = i
-                    }
-                }
-                return r
-            };
-            for(let e of els){
-                let m = min();
-                let w = m * (200.00000 + g);
-                let h = height[m] + gap;
-                e.style.top = h + "px";
-                e.style.left = w + "px";
-                document.getElementById("manager").appendChild(e);
-                height[m] += e.offsetHeight + gap;
-            }
+
         }
     }
 </script>
@@ -65,9 +69,15 @@
         height: 100%;
     }
 
+    .col{
+        height: 0;
+        float: left;
+        overflow-y: visible;
+    }
+
     .art {
         border-radius: 4px;
-        width: 200px;
+        width: 100%;
         overflow-y: hidden;
         position: absolute;
         padding: 1em;
