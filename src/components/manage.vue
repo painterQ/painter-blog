@@ -1,13 +1,5 @@
 <template>
     <div id="manager" ref="manager">
-        <div class="col" ref="col">
-
-        </div>
-        <div class="art" ref="art">
-            <div>
-                第一篇文章
-            </div>
-        </div>
     </div>
 </template>
 
@@ -28,10 +20,13 @@
             console.log(w,colNum,colWidth);
 
             //生产col
-            let doc = this.$el.ownerDocument
-            let cols = []
+            let doc = this.$el.ownerDocument;
+            let cols = [];
             for(let i = 0;i < colNum;i++){
                 cols[i] = doc.createElement('div');
+                /*vue中不能直接cols[i].className = 'col';
+                * 这样不能展示出效果
+                * */
                 cols[i].className = 'col';
                 cols[i].style.width = colWidth + 'px';
                 this.$refs['manager'].append(cols[i]);
@@ -52,8 +47,10 @@
             //生产art
             let els = [];
             for(let i = 0; i< 40; i++){
-                els[i] = this.$refs["art"].cloneNode(true);
-                els[i].firstChild.innerHTML = i + "\n文章".repeat(Math.floor(Math.random() * 100));
+                els[i] = doc.createElement('div');
+                els[i].className = 'art';
+                els[i].appendChild(doc.createElement('div'));
+                els[i].firstChild.innerHTML = i + "\n" + "文章".repeat(Math.floor(Math.random() * 20));
                 cols[min()].appendChild(els[i]);
             }
 
@@ -70,16 +67,16 @@
     }
 
     .col{
-        height: 0;
+        display: inline-block;
         float: left;
-        overflow-y: visible;
+        box-sizing: border-box;
+        margin: 0;
     }
 
     .art {
         border-radius: 4px;
         width: 100%;
         overflow-y: hidden;
-        position: absolute;
         padding: 1em;
         background-color: #fff;
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);

@@ -9,7 +9,7 @@
                 <el-button id="delete" >删除</el-button>
                 <el-input type="text" placeholder="请输入标题"
                           id="title" maxlength="30" show-word-limit
-                          v-model="tital"/>
+                          v-model="title"/>
             </div>
             <el-input type="text" id="path" v-model="path" class="editor-input"
                       placeholder="请输入路径">
@@ -80,13 +80,13 @@
                     menubar: false,
                     // 此处为图片上传处理函数，这个直接用了base64的图片形式上传图片，
                     // 如需ajax上传可参考https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
-                    images_upload_handler: (blobInfo, success, failure) => {
+                    images_upload_handler: (blobInfo, success, /*failure*/) => {
                         const img = 'data:image/jpeg;base64,' + blobInfo.base64()
                         success(img)
                     }
                 },
                 myValue: this.value,
-                tital: '',
+                title: '',
                 path: ''
             }
         },

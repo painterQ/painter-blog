@@ -89,18 +89,20 @@
     } from 'element-ui'
     import util from '../api/axios.config'
 
-    vue.use(Form);
-    vue.use(FormItem);
-    vue.use(Select);
-    vue.use(Option);
-    vue.use(OptionGroup);
-    vue.use(Input);
-    vue.use(Button);
-    vue.use(CheckboxGroup);
-    vue.use(Checkbox);
-    vue.use(Avatar);
-    vue.use(Switch);
-    vue.use(Divider);
+    {
+        vue.use(Form);
+        vue.use(FormItem);
+        vue.use(Select);
+        vue.use(Option);
+        vue.use(OptionGroup);
+        vue.use(Input);
+        vue.use(Button);
+        vue.use(CheckboxGroup);
+        vue.use(Checkbox);
+        vue.use(Avatar);
+        vue.use(Switch);
+        vue.use(Divider);
+    }
 
     export default {
         name: "painter-setting",
@@ -119,7 +121,7 @@
                 if (value === '') {
                     callback(new Error('请再次输入密码'));
                 } else if (value !== this.pwdChangeForm.pwd) {
-                    callback(new Error('两次输入密码不一致!'));
+                    callback(new Error('两次输入密码不一致'));
                 } else {
                     callback();
                 }
