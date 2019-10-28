@@ -1,5 +1,6 @@
 <template>
     <div id="manager" ref="manager">
+<!--        想要更新显示，1.修改依赖的状态 2.状态被Vue感知到-->
         <div class="col" v-for="(arts, colIndex) in colItems" :key="colIndex"
              ref="col"
              :style="{width: colWidth + 'px'}">
@@ -37,7 +38,11 @@
 
             //现在的问题是，在mount中修改了元素，但是获取不到受此影响的其他元素的尺寸
             //生产art
-            let min = () => {
+
+            this.add();
+        },
+        methods : {
+            min : function() {  //不能使用箭头函数，因为箭头函数没有this，vue就不能把this绑定到当前实例
                 let min = 65535, r = 0;
                 //当ref和v-for搭配的时候，$ref[~]会返回数组
                 //不要吧ref绑定变量
@@ -51,16 +56,22 @@
                 //计算属性中不允许产生修改其他状态的副作用
                 console.log('min:', r);
                 return r;
-            };
-
-            for (let i = 0; i < 40; i++) {
-                let currentCol = min();
-                let newArt = {text: i + "\n" + "文章".repeat(Math.floor(Math.random() * 20))};
-                if (!(this.colItems[currentCol] instanceof Array)) {
-                    this.colItems[currentCol] = new Array()
+            },
+            add :async function () {
+                for (let i = 0; i < 40; i++) {
+                    let currentCol = this.min();
+                    let newArt = {text: i + "\n" + "文章".repeat(Math.floor(Math.random() * 80))};
+                    if (!(this.colItems[currentCol] instanceof Array)) {
+                        this.colItems[currentCol] = [];
+                    }
+                    let tmp = [];
+                    for(let i of this.colItems){
+                        tmp.push(i)
+                    }
+                    tmp[currentCol].push(newArt);
+                    this.colItems = tmp;
+                    await this.$nextTick();
                 }
-                this.colItems[currentCol].push(newArt);
-                this.colItems = this.colItems.slice();
             }
         }
     }
@@ -71,13 +82,12 @@
         max-width: 1024px;
         margin: 3em auto;
         position: relative;
-        height: 100%;
     }
 
     .col {
         float: left;
         box-sizing: border-box;
-        margin: 0;
+        margin-left: 1em;
     }
 
     .art {
@@ -85,13 +95,17 @@
         width: 100%;
         overflow-y: hidden;
         padding: 1em;
+        margin-top: 1em;
         background-color: #fff;
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
     }
 
     .art:hover {
-        box-shadow: 2px 7px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.2);
+        position: relative;
+        top: -1px;
+        left: -1px;
     }
 
     .art > * {
