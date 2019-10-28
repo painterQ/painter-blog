@@ -32,8 +32,7 @@
             * */
             let w = this.$refs["manager"].clientWidth;
             let colNum = Math.floor(w / 250);
-            this.colWidth = 250 + Math.floor((w - colNum * 250) / colNum);
-            console.log(w, colNum, this.colWidth);
+            this.colWidth = 250 + Math.floor((w - colNum * 262) / colNum);
             this.colItems = new Array(colNum);
 
             //现在的问题是，在mount中修改了元素，但是获取不到受此影响的其他元素的尺寸
@@ -87,7 +86,7 @@
     .col {
         float: left;
         box-sizing: border-box;
-        margin-left: 1em;
+        margin-left: 12px;
     }
 
     .art {
