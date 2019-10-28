@@ -14,15 +14,24 @@
 </template>
 
 <script>
+    import util from '@/api/axios.config'
     export default {
         name: "painter-manager",
         data: function () {
             return {
                 colItems: [], //每一项是一个art数组，
                 colWidth: 0, //Number 列宽 px
+                arts: [],
             }
         },
-
+        created: function(){
+            util.post("/arts",{
+                'start':0,
+                'end':40,
+            }).then( res=>{
+                this.arts = res.data
+            })
+        },
         mounted: function () {
             /*
             * learn: dom 节点的克隆和追加
@@ -40,6 +49,11 @@
 
             this.add();
         },
+        watch:{
+          'arts': function () {
+              this.add()
+          }
+        },
         methods : {
             min : function() {  //不能使用箭头函数，因为箭头函数没有this，vue就不能把this绑定到当前实例
                 let min = 65535, r = 0;
@@ -53,22 +67,56 @@
                     }
                 }
                 //计算属性中不允许产生修改其他状态的副作用
-                console.log('min:', r);
                 return r;
             },
+            /*
+            * 异步函数，async和await关键字
+            * async是作为关键字放在function前，定义一个异步函数，异步函数其实就是返回promise的函数
+            * 返回值会被当做resolve的参数，throw的error会被当作reject的参数
+            *
+            * await后面应该跟一个promise对象的实例，然后逻辑会停在这里，直到promise对象有了resolve或者reject状态之一
+            * 下面两个的效果相同
+            */
+/*
+function log(i) {
+    setTimeout(
+        () => {
+            console.log(i)
+        }, 100
+    )
+}
+
+Promise.resolve(() => {}).
+then(
+    () => { for (let i = 0; i < 2; i++) log(1); }).
+then(
+    () => { for (let i = 0; i < 2; i++) log(2); }).
+then(
+    () => { for (let i = 0; i < 2; i++) log(3); });
+log(4);
+
+*/
+
+            /* log(4);
+            *
+            * async function(){
+            *   await Promise.resolve(()=>{ for(let i = 0;i< 10;i++)log(1);});
+            *   await Promise.resolve(()=>{ for(let i = 0;i< 10;i++)log(2);});
+            *   await Promise.resolve(()=>{ for(let i = 0;i< 10;i++)log(3);});
+            * }()
+            * log(4);
+            * */
             add :async function () {
-                for (let i = 0; i < 40; i++) {
+                for (let i in this.arts) {
                     let currentCol = this.min();
-                    let newArt = {text: i + "\n" + "文章".repeat(Math.floor(Math.random() * 80))};
+                    // let newArt = {text: i + "\n" + "文章".repeat(Math.floor(Math.random() * 80))};
                     if (!(this.colItems[currentCol] instanceof Array)) {
                         this.colItems[currentCol] = [];
                     }
-                    let tmp = [];
-                    for(let i of this.colItems){
-                        tmp.push(i)
-                    }
-                    tmp[currentCol].push(newArt);
-                    this.colItems = tmp;
+                    //learn: Array.from()
+                    this.colItems = Array.from(this.colItems);
+                    this.colItems[currentCol].push({text:this.arts[i]});
+                    console.log(this.arts[i]);
                     await this.$nextTick();
                 }
             }

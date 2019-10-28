@@ -90,9 +90,6 @@
                 path: ''
             }
         },
-        mounted() {
-            tinymce.init({});
-        },
         methods: {
             // 添加相关的事件，可用的事件参照文档=> https://github.com/tinymce/tinymce-vue => All available events
             // 需要什么事件可以自己增加
@@ -136,7 +133,7 @@
     }
 
     #tinymce-editor-form > div {
-        margin: 7px 0 0 0;
+        margin: 0 0 7px 0;
     }
 
     .line {
