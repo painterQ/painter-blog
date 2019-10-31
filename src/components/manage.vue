@@ -1,4 +1,5 @@
 <template>
+    <!--想要外层没有滚动条，所以包了一层container，设置固定大小，设置overflow-->
     <div id="const-size-container"  ref="const-size-container" @scroll="scrollHandle">
         <div id="manager" ref="manager">
             <!--        想要更新显示，1.修改依赖的状态 2.状态被Vue感知到-->
@@ -61,6 +62,8 @@
             scrollHandle: function(){
                 console.log("发生了滚动")
                 let tmp = this.$refs['const-size-container']
+                //判定滚动条到底了
+                //clientHeight  scrollTop  scrollHeight
                 if (tmp.clientHeight + tmp.scrollTop === tmp.scrollHeight ){
                     util.post("/arts",{
                         'start': this.arts.length,
@@ -126,7 +129,6 @@ log(4);
             add :async function () {
                 for (let i in this.arts) {
                     let currentCol = this.min();
-                    // let newArt = {text: i + "\n" + "文章".repeat(Math.floor(Math.random() * 80))};
                     if (!(this.colItems[currentCol] instanceof Array)) {
                         this.colItems[currentCol] = [];
                     }

@@ -2,7 +2,7 @@
     <div class="setting">
         <!--learn: 通过给元素绑定ref=“XXX”，然后通过this.$refs.XXX或者this.refs['XXX']来获取元素-->
         <el-form ref="baseInfoForm" :model="baseInfoForm" label-width="80px" :rules="rules" status-icon>
-            <el-divider class= "line" content-position="left">个人信息</el-divider>
+            <el-divider class="line" content-position="left">个人信息</el-divider>
             <div id="owner-info">
                 <el-avatar
                         class="setting-avatar"
@@ -20,7 +20,7 @@
                     </el-form-item>
                     <el-form-item label="github" prop="github">
                         <span>选择填写, 如: https://github.com/painterQ</span>
-                        <el-input v-model="baseInfoForm.github" >
+                        <el-input v-model="baseInfoForm.github">
                             <template slot="prepend">Http://github.com/</template>
                         </el-input>
                     </el-form-item>
@@ -32,7 +32,7 @@
             </div>
         </el-form>
         <el-form ref="blogInfoForm" :model="blogInfoForm" label-width="80px" :rules="rules" status-icon>
-            <el-divider class= "line" content-position="left">博客信息</el-divider>
+            <el-divider class="line" content-position="left">博客信息</el-divider>
             <el-form-item label="博客昵称" prop="nickName">
                 <el-input v-model="blogInfoForm.nickName"></el-input>
                 <span>用户昵称可以与用户名不同, 用于前台显示.如果你将此项留空, 将默认使用登录用户名.</span>
@@ -64,7 +64,7 @@
         </el-form>
 
         <el-form ref="pwdChangeForm" :model="pwdChangeForm" label-width="80px" :rules="rules" status-icon>
-            <el-divider class= "line" content-position="left">密码修改</el-divider>
+            <el-divider class="line" content-position="left">密码修改</el-divider>
             <el-form-item label="密码" prop="pwd">
                 <el-input v-model="pwdChangeForm.pwd" type="password" auto-complete="off"></el-input>
             </el-form-item>
@@ -85,7 +85,7 @@
     import {
         Form, FormItem, Select, Option, OptionGroup,
         Input, Button, Checkbox, CheckboxGroup, Switch,
-        Avatar, Divider
+        Avatar, Divider,MessageBox,
     } from 'element-ui'
     import util from '../api/axios.config'
 
@@ -102,6 +102,7 @@
         vue.use(Avatar);
         vue.use(Switch);
         vue.use(Divider);
+        vue.use(MessageBox);
     }
 
     export default {
@@ -140,36 +141,36 @@
                     beforeTopic: '',
                 },
                 pwdChangeForm: {
-                    pwd:'',
+                    pwd: '',
                     rePWD: '',
                 },
                 rules: {
                     mail: [
-                        { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                        {type: "email", message: '不符合邮箱格式', trigger: 'blur' }
+                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+                        {type: "email", message: '不符合邮箱格式', trigger: 'blur'}
                     ],
                     nickName: [
-                        {max: 10, message: '长度不超过10个字符', trigger: 'change' },
-                        { required: true, message: '请输入昵称', trigger: 'blur' },
+                        {max: 10, message: '长度不超过10个字符', trigger: 'change'},
+                        {required: true, message: '请输入昵称', trigger: 'blur'},
                     ],
                     title: [
-                        {max: 10, message: '长度不超过10个字符', trigger: 'change' },
-                        { required: true, message: '请输入博客标题', trigger: 'blur' },
+                        {max: 10, message: '长度不超过10个字符', trigger: 'change'},
+                        {required: true, message: '请输入博客标题', trigger: 'blur'},
                     ],
                     motto: [
-                        {max: 64, message: '长度不超过64个字符', trigger: 'change' },
+                        {max: 64, message: '长度不超过64个字符', trigger: 'change'},
                     ],
                     archive: [
-                        {max: 255, message: '长度不超过255个字符', trigger: 'change' },
+                        {max: 255, message: '长度不超过255个字符', trigger: 'change'},
                     ],
                     topic: [
-                        {max: 255, message: '长度不超过255个字符', trigger: 'change' },
+                        {max: 255, message: '长度不超过255个字符', trigger: 'change'},
                     ],
-                    pwd:[
-                        { validator: validatePass, trigger: 'blur' },
+                    pwd: [
+                        {validator: validatePass, trigger: 'blur'},
                     ],
-                    repwd:[
-                        { validator: validatePass2, trigger: 'change' },
+                    repwd: [
+                        {validator: validatePass2, trigger: 'change'},
                     ],
                 }
             }
@@ -177,12 +178,31 @@
 
         methods: {
             submitForm(name) {
-                util.post("/login",name)
+                util.post("/login", name)
             },
             avatarError() {
                 this.$refs['avatar'].src = `${this.baseUrl}/avatar.jpeg`
             },
 
+        },
+        mounted(){
+            const h = this.$createElement;
+            //MessageBox, MessageBox.alert, MessageBox.confirm 和 MessageBox.prompt
+            MessageBox({
+                title: '消息',
+                message: h('div', null, [
+                    h('div', null, '邮箱'),
+                    h('i', {style: 'color: teal'}, 'VNode')
+                ]),
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+            }).then(action => {
+                this.$message({
+                    type: 'info',
+                    message: 'action: ' + action
+                });
+            });
         }
     }
 </script>
@@ -223,7 +243,8 @@
     .line {
         margin: 2em 0;
     }
-    .line >*{
+
+    .line > * {
         font-size: 1.5em;
         font-size: large;
         background-color: #fafafa;;

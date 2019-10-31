@@ -8,6 +8,23 @@ const store = new Vuex.Store({
         viewState: {
             index: 1,
             asideSwitch: true,
+        },
+        logInState:{
+            email: "",
+            lastLogin: [],  //最近10次的登录ip，时间
+            avatar: null, //image对象
+            baseInfoForm: {
+                mail: '',
+                github: '',
+            },
+            blogInfoForm: {
+                nickName: '',
+                title: '',
+                motto: '',
+                IPC: '',
+                beforeArchive: '',
+                beforeTopic: '',
+            },
         }
     },
     // getters: {
