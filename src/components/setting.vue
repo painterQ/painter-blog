@@ -190,9 +190,10 @@
             //MessageBox, MessageBox.alert, MessageBox.confirm 和 MessageBox.prompt
             MessageBox({
                 title: '消息',
-                message: h('div', null, [
-                    h('div', null, '邮箱'),
-                    h('i', {style: 'color: teal'}, 'VNode')
+                message: h('form', {style: 'color: teal',type: 'text'}, [
+                    h('input', {style: 'color: teal',type: 'text'}, '邮箱'),
+                    h('br', null),
+                    h('input', {style: 'color: teal',type: 'text'}, '密码')
                 ]),
                 showCancelButton: true,
                 confirmButtonText: '确定',
