@@ -85,7 +85,7 @@
     import {
         Form, FormItem, Select, Option, OptionGroup,
         Input, Button, Checkbox, CheckboxGroup, Switch,
-        Avatar, Divider,MessageBox,
+        Avatar, Divider,
     } from 'element-ui'
     import util from '../api/axios.config'
 
@@ -102,7 +102,6 @@
         vue.use(Avatar);
         vue.use(Switch);
         vue.use(Divider);
-        vue.use(MessageBox);
     }
 
     export default {
@@ -185,26 +184,7 @@
             },
 
         },
-        mounted(){
-            const h = this.$createElement;
-            //MessageBox, MessageBox.alert, MessageBox.confirm 和 MessageBox.prompt
-            MessageBox({
-                title: '消息',
-                message: h('form', {style: 'color: teal',type: 'text'}, [
-                    h('input', {style: 'color: teal',type: 'text'}, '邮箱'),
-                    h('br', null),
-                    h('input', {style: 'color: teal',type: 'text'}, '密码')
-                ]),
-                showCancelButton: true,
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-            }).then(action => {
-                this.$message({
-                    type: 'info',
-                    message: 'action: ' + action
-                });
-            });
-        }
+
     }
 </script>
 
