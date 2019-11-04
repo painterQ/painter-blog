@@ -39,6 +39,9 @@ const store = new Vuex.Store({
         },
         changeAsideSwitch: state => {
             state.viewState.asideSwitch = !state.viewState.asideSwitch;
+        },
+        changeLogin: state => {
+            state.login = state
         }
     }
 });

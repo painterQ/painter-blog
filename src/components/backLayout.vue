@@ -6,27 +6,7 @@ el-container el-aside el-header el-footer
     <el-container class="container">
         <el-header class="header">
             <painter-header></painter-header>
-            <el-dialog
-                    title="请登录"
-                    :visible.sync="!this.$store.state.login"
-                    width="30%"
-                    style="font-size: 1.5em"
-                    close-on-click-modal="false"
-                    show-close="false"
-                    center>
-                <el-form id="login">
-                    <el-form-item label="邮箱" prop="mail" style="font-size: 1.5em">
-                        <el-input prefix-icon="el-icon-message"></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码" prop="pwd" style="font-size: 1.5em">
-                        <el-input prefix-icon="el-icon-lock"></el-input>
-                    </el-form-item>
-                </el-form>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="loginClear">清 空</el-button>
-                    <el-button type="primary" @click="loginSubmit">登 录</el-button>
-                </span>
-            </el-dialog>
+            <painter-login></painter-login>
         </el-header>
         <el-container class="body">
             <!--learn: 设置为auto，设置了overflow，便可以由包裹性，由内部决定--->
@@ -41,18 +21,16 @@ el-container el-aside el-header el-footer
 </template>
 
 <script>
-    import vue from 'vue'
-    import {Dialog} from 'element-ui'
     import painterAside from "@/components/aside"
     import painterHeader from "@/components/header"
-    import message from "@/components/message";
+    import painterLogin from "@/components/login"
 
-    vue.use(Dialog);
     export default {
         name: 'layout',
         components: {
             painterHeader,
             painterAside,
+            painterLogin,
         },
         props: {
             msg: String
@@ -65,15 +43,6 @@ el-container el-aside el-header el-footer
 
         //learn: 计算属性
         computed: {},
-        methods: {
-            loginClear() {
-                message(this, "清空输入", "warning");
-            },
-            loginSubmit() {
-                message(this, "登录", "success");
-                this.$store.commit("login", true);
-            },
-        }
     }
 </script>
 

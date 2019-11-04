@@ -16,7 +16,7 @@ Mock.mock('/login', 'post', (options) => {
             message: '账号或者密码错误'
         }
     }
-})
+});
 
 let r = [];
 for(let i = 0;i<160;i++){
@@ -31,4 +31,19 @@ Mock.mock('/arts', 'post', (options) => {
     if(end < start) return null;
     if(end > 160) return null;
     return r.slice(start,end);
+});
+
+Mock.mock('/info/base', 'post', (options) => {
+    console.log('options:', options);
+    return {ok:true};
+});
+
+Mock.mock('/info/blog', 'post', (options) => {
+    console.log('options:', options);
+    return {ok:true};
+});
+
+Mock.mock('/info/pwd', 'post', (options) => {
+    console.log('options:', options);
+    return {ok:true};
 });

@@ -49,7 +49,7 @@ export default {
                         message: error,
                         type: "error",
                         duration: 5000,
-                    })
+                    });
                     reject(error)
                 })
         })

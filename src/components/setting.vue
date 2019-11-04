@@ -87,7 +87,7 @@
         Input, Button, Checkbox, CheckboxGroup, Switch,
         Avatar, Divider
     } from 'element-ui'
-    import util from '../api/axios.config'
+    import {changeBaseInfo, changeBlogInfo, changePwdChange} from "../api/rpc";
 
     {
         vue.use(Form);
@@ -177,7 +177,12 @@
 
         methods: {
             submitForm(name) {
-                util.post("/login", name)
+                switch (name) {
+                    case  'baseInfoForm': changeBaseInfo(this.baseInfoForm);return
+                    case  'blogInfoForm': changeBlogInfo(this.blogInfoForm);return;
+                    case  'pwdChangeForm': changePwdChange(this.pwdChangeForm);return;
+                    default: return;
+                }
             },
             avatarError() {
                 this.$refs['avatar'].src = `${this.baseUrl}/avatar.jpeg`
