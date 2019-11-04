@@ -20,13 +20,9 @@ el-container el-aside el-header el-footer
 </template>
 
 <script>
-    import vue from 'vue'
-    import {MessageBox} from 'element-ui'
-
     import painterAside from "@/components/aside"
     import painterHeader from "@/components/header"
-
-    vue.use(MessageBox);
+    import message from "./message";
 
     export default {
         name: 'layout',
@@ -46,9 +42,10 @@ el-container el-aside el-header el-footer
         //learn: 计算属性
         computed: {},
         mounted() {
+            message(this,"登陆弹框",'warning');
             const h = this.$createElement;
             //MessageBox, MessageBox.alert, MessageBox.confirm 和 MessageBox.prompt
-            MessageBox({
+            this.$messageBox({
                 title: '登录',
                 message: h('form', {style: 'color: teal;display:block;margin:auto; width: 20em', type: 'text'}, [
                     h('div', {style: 'margin:10px auto; width: 15em'}, [

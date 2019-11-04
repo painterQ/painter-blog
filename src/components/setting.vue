@@ -85,7 +85,7 @@
     import {
         Form, FormItem, Select, Option, OptionGroup,
         Input, Button, Checkbox, CheckboxGroup, Switch,
-        Avatar, Divider,
+        Avatar, Divider
     } from 'element-ui'
     import util from '../api/axios.config'
 
