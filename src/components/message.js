@@ -18,4 +18,9 @@ let message = function(obj, msg='',type='') {
     });
 };
 
+/*
+* 使用方法
+* message(this,"登陆弹框",'warning');
+* */
+
 export default message

@@ -9,6 +9,7 @@ const store = new Vuex.Store({
             index: 1,
             asideSwitch: true,
         },
+        login: false,
         logInState:{
             email: "",
             lastLogin: [],  //最近10次的登录ip，时间

@@ -6,6 +6,27 @@ el-container el-aside el-header el-footer
     <el-container class="container">
         <el-header class="header">
             <painter-header></painter-header>
+            <el-dialog
+                    title="请登录"
+                    :visible.sync="!this.$store.state.login"
+                    width="30%"
+                    style="font-size: 1.5em"
+                    close-on-click-modal="false"
+                    show-close="false"
+                    center>
+                <el-form id="login">
+                    <el-form-item label="邮箱" prop="mail" style="font-size: 1.5em">
+                        <el-input prefix-icon="el-icon-message"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="pwd" style="font-size: 1.5em">
+                        <el-input prefix-icon="el-icon-lock"></el-input>
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="loginClear">清 空</el-button>
+                    <el-button type="primary" @click="loginSubmit">登 录</el-button>
+                </span>
+            </el-dialog>
         </el-header>
         <el-container class="body">
             <!--learn: 设置为auto，设置了overflow，便可以由包裹性，由内部决定--->
@@ -20,10 +41,13 @@ el-container el-aside el-header el-footer
 </template>
 
 <script>
+    import vue from 'vue'
+    import {Dialog} from 'element-ui'
     import painterAside from "@/components/aside"
     import painterHeader from "@/components/header"
-    import message from "./message";
+    import message from "@/components/message";
 
+    vue.use(Dialog);
     export default {
         name: 'layout',
         components: {
@@ -41,38 +65,18 @@ el-container el-aside el-header el-footer
 
         //learn: 计算属性
         computed: {},
-        mounted() {
-            message(this,"登陆弹框",'warning');
-            const h = this.$createElement;
-            //MessageBox, MessageBox.alert, MessageBox.confirm 和 MessageBox.prompt
-            this.$messageBox({
-                title: '登录',
-                message: h('form', {style: 'color: teal;display:block;margin:auto; width: 20em', type: 'text'}, [
-                    h('div', {style: 'margin:10px auto; width: 15em'}, [
-                        h('span', null, '邮箱'),
-                        h('input', {style: 'color: teal', type: 'text'}, '邮箱'),
-                    ]),
-                    h('div', {style: 'margin:auto; width: 15em'}, [
-                        h('span', null, '密码'),
-                        h('input', {style: 'color: teal', type: 'text'}, '密码')
-                    ]),
-
-                ]),
-                showCancelButton: false,
-                closeOnClickModal: false,
-                showConfirmButton: false,
-                showClose:false,
-            }).then(action => {
-                this.$message({
-                    type: 'info',
-                    message: 'action: ' + action
-                });
-            });
+        methods: {
+            loginClear() {
+                message(this, "清空输入", "warning");
+            },
+            loginSubmit() {
+                message(this, "登录", "success");
+                this.$store.commit("login", true);
+            },
         }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     /*
     learn: 关于包裹性
@@ -126,4 +130,11 @@ el-container el-aside el-header el-footer
         overflow-y: auto;
     }
 
+    #login {
+        width: 70%;
+        margin: 0 auto;
+        font-family: 微软雅黑 Sans-serif;
+        font-weight: bold;
+    }
 </style>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
