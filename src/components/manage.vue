@@ -1,20 +1,24 @@
 <template>
-    <div id="manager" ref="manager">
-<!--        想要更新显示，1.修改依赖的状态 2.状态被Vue感知到-->
-        <div class="col" v-for="(arts, colIndex) in colItems" :key="colIndex"
-             ref="col"
-             :style="{width: colWidth + 'px'}">
-            <div class="art" v-for="(artItem, index) in arts" :key="index">
-                <div>
-                    {{artItem.text}}
+    <!--想要外层没有滚动条，所以包了一层container，设置固定大小，设置overflow-->
+    <div id="const-size-container"  ref="const-size-container" @scroll="scrollHandle">
+        <div id="manager" ref="manager">
+            <!--        想要更新显示，1.修改依赖的状态 2.状态被Vue感知到-->
+            <div class="col" v-for="(arts, colIndex) in colItems" :key="colIndex"
+                 ref="col"
+                 :style="{width: colWidth + 'px'}">
+                <div class="art" v-for="(artItem, index) in arts" :key="index">
+                    <div>
+                        {{artItem.text}}
+                    </div>
                 </div>
             </div>
+            <div class="bottom" ref="bottom">加载中...</div>
         </div>
     </div>
 </template>
 
 <script>
-    import util from '@/api/axios.config'
+    import util from '@/api/axios.config.js'
     export default {
         name: "painter-manager",
         data: function () {
@@ -55,6 +59,22 @@
           }
         },
         methods : {
+            scrollHandle: function(){
+                console.log("发生了滚动")
+                let tmp = this.$refs['const-size-container']
+                //判定滚动条到底了
+                //clientHeight  scrollTop  scrollHeight
+                if (tmp.clientHeight + tmp.scrollTop === tmp.scrollHeight ){
+                    util.post("/arts",{
+                        'start': this.arts.length,
+                        'end': this.arts.length + 20,
+                    }).then( res=>{
+                        this.arts = this.arts.concat(res.data)
+                    }).catch(()=>{
+                        this.$refs['bottom'].innerHTML = "到底了"
+                    })
+                }
+            },
             min : function() {  //不能使用箭头函数，因为箭头函数没有this，vue就不能把this绑定到当前实例
                 let min = 65535, r = 0;
                 //当ref和v-for搭配的时候，$ref[~]会返回数组
@@ -109,14 +129,13 @@ log(4);
             add :async function () {
                 for (let i in this.arts) {
                     let currentCol = this.min();
-                    // let newArt = {text: i + "\n" + "文章".repeat(Math.floor(Math.random() * 80))};
                     if (!(this.colItems[currentCol] instanceof Array)) {
                         this.colItems[currentCol] = [];
                     }
                     //learn: Array.from()
                     this.colItems = Array.from(this.colItems);
                     this.colItems[currentCol].push({text:this.arts[i]});
-                    console.log(this.arts[i]);
+                    console.log("添加元素，当前总长",this.arts.length, i)
                     await this.$nextTick();
                 }
             }
@@ -125,12 +144,26 @@ log(4);
 </script>
 
 <style scoped>
+    #const-size-container{
+        height: 100%;
+        width: 100%;
+        overflow: scroll;
+    }
     #manager {
         max-width: 1024px;
         margin: 3em auto;
         position: relative;
+        overflow-y: auto;
+        overflow-x: visible;
     }
-
+    .bottom{
+        float: left;
+        width: 100%;
+        text-align: center;
+        height: 3em;
+        padding: 1em;
+        box-sizing: border-box;
+    }
     .col {
         float: left;
         box-sizing: border-box;
