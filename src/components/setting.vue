@@ -4,15 +4,15 @@
         <el-form ref="baseInfoForm" :model="baseInfoForm" label-width="80px" :rules="rules" status-icon>
             <el-divider class="line" content-position="left">个人信息</el-divider>
             <div id="owner-info">
-                <el-avatar
-                        class="setting-avatar"
-                        shape="square"
-                        ref="avatar"
-                        src="./avatar.jpeg"
-                        :size="200"
-                        fit="contain"
-                        @error="avatarError"
-                ></el-avatar>
+                <el-upload
+                        class="avatar-uploader"
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
                 <div>
                     <el-form-item label="个人邮箱" prop="mail">
                         <span>用于发送告警邮件及其它通知, 建议填写, 如: example@163.com.</span>
@@ -85,7 +85,7 @@
     import {
         Form, FormItem, Select, Option, OptionGroup,
         Input, Button, Checkbox, CheckboxGroup, Switch,
-        Avatar, Divider
+        Avatar, Divider,Upload
     } from 'element-ui'
     import {changeBaseInfo, changeBlogInfo, changePwdChange} from "../api/rpc";
 
@@ -102,6 +102,7 @@
         vue.use(Avatar);
         vue.use(Switch);
         vue.use(Divider);
+        vue.use(Upload);
     }
 
     export default {
@@ -127,6 +128,7 @@
                 }
             };
             return {
+                imageUrl: 'avatar.jpeg',
                 baseInfoForm: {
                     mail: '',
                     github: '',
@@ -178,7 +180,7 @@
         methods: {
             submitForm(name) {
                 switch (name) {
-                    case  'baseInfoForm': changeBaseInfo(this.baseInfoForm);return
+                    case  'baseInfoForm': changeBaseInfo(this.baseInfoForm);return;
                     case  'blogInfoForm': changeBlogInfo(this.blogInfoForm);return;
                     case  'pwdChangeForm': changePwdChange(this.pwdChangeForm);return;
                     default: return;
@@ -187,7 +189,21 @@
             avatarError() {
                 this.$refs['avatar'].src = `${this.baseUrl}/avatar.jpeg`
             },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
 
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }
         },
 
     }
@@ -201,13 +217,33 @@
         margin: 2em 0;
     }
 
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+
     #owner-info {
         display: flex;
         flex-wrap: wrap;
-    }
-
-    #owner-info > * {
-        width: 60%;
     }
 
     .setting {
@@ -215,11 +251,6 @@
         max-width: 990px;
     }
 
-    .setting-avatar {
-        margin: 0 2em 2em 0;
-        /*learn: 阴影 水平，垂直，模糊度*/
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
 
     span {
         margin: 1em 1em 0 0;

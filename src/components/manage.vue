@@ -60,7 +60,6 @@
         },
         methods : {
             scrollHandle: function(){
-                console.log("发生了滚动")
                 let tmp = this.$refs['const-size-container']
                 //判定滚动条到底了
                 //clientHeight  scrollTop  scrollHeight
