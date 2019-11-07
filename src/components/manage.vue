@@ -148,6 +148,10 @@ log(4);
         width: 100%;
         overflow: scroll;
     }
+    .head{
+        max-width: 1024px;
+        margin: 3em auto;
+    }
     #manager {
         max-width: 1024px;
         margin: 3em auto;
