@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import layout from './components/backLayout.vue'
+import layout from '../components/indexLayout.vue'
 
 export default {
   name: 'app',
