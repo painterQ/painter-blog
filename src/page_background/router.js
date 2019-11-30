@@ -2,10 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import {Aside, Button, Col, Container, Footer, Header, Main, Row } from "element-ui";
 
-import painterSetting from "@/components/setting"
-import tinyMEC from "@/components/document"
-import notFound from "@/components/page404"
-import painterManager from "@/components/manage"
+import painterSetting from "../components/setting"
+import tinyMEC from "../components/document"
+import notFound from "../components/page404"
+import painterManager from "../components/manage"
 
 const routes = [
     {

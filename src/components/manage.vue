@@ -60,7 +60,6 @@
         },
         methods : {
             scrollHandle: function(){
-                console.log("发生了滚动")
                 let tmp = this.$refs['const-size-container']
                 //判定滚动条到底了
                 //clientHeight  scrollTop  scrollHeight
@@ -149,6 +148,10 @@ log(4);
         width: 100%;
         overflow: scroll;
     }
+    .head{
+        max-width: 1024px;
+        margin: 3em auto;
+    }
     #manager {
         max-width: 1024px;
         margin: 3em auto;
@@ -177,15 +180,14 @@ log(4);
         padding: 1em;
         margin-top: 1em;
         background-color: #fff;
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
     }
 
     .art:hover {
-        box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         position: relative;
-        top: -1px;
-        left: -1px;
+        top: 1px;
     }
 
     .art > * {

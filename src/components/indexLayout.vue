@@ -4,33 +4,32 @@ el-container el-aside el-header el-footer
 --->
 <template>
     <el-container class="container">
-        <el-header class="header">
-            <painter-header></painter-header>
-            <painter-login></painter-login>
+        <el-header class="header" style="height: 30vh;">
+            <index-header></index-header>
         </el-header>
-        <el-container class="body">
-            <!--learn: 设置为auto，设置了overflow，便可以由包裹性，由内部决定--->
-            <el-aside class="aside" ref="aside" width="auto">
-                <painter-aside></painter-aside>
-            </el-aside>
-            <el-main class="main">
-                <router-view></router-view>
-            </el-main>
-        </el-container>
+        <main class="main">
+            <el-container class="body">
+                <!--learn: 设置为auto，设置了overflow，便可以由包裹性，由内部决定--->
+                <el-aside class="aside" ref="aside" width="auto">
+                    <index-aside></index-aside>
+                </el-aside>
+                <el-main class="main">
+
+                </el-main>
+            </el-container>
+        </main>
     </el-container>
 </template>
 
 <script>
-    import painterAside from "@/components/aside"
-    import painterHeader from "@/components/header"
-    import painterLogin from "@/components/login"
+    import indexAside from "@/components/indexAside"
+    import indexHeader from "@/components/indexHeader"
 
     export default {
         name: 'layout',
         components: {
-            painterHeader,
-            painterAside,
-            painterLogin,
+            indexHeader,
+            indexAside,
         },
         props: {
             msg: String
@@ -68,7 +67,11 @@ el-container el-aside el-header el-footer
         height: 100vh;
         overflow: hidden;
     }
-
+    .main{
+        width: 1024px;
+        margin: 0 auto;
+        overflow-y:hidden;
+    }
     /* learn: calc()函数，css3的函数
     attr()，返回选择元素的属性值
     liner-gradient()
@@ -81,12 +84,10 @@ el-container el-aside el-header el-footer
 
     .header {
         padding: 0;
-        height: 50px;
     }
 
     .main {
         padding: 0;
-        background-color: #fafafa;
         overflow-y: auto;
         overflow-x: hidden;
         box-sizing: border-box;
