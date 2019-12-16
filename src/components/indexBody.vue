@@ -11,7 +11,9 @@
                     <div>Post by 乔沛杨 on {{arts.time}}</div>
                 </div>
             </el-col>
-            <el-col  :span="6" class="index-body-aside">aside</el-col>
+            <el-col  :span="6" class="index-body-aside">
+                <index-aside :transfer-data=isDoc></index-aside>
+            </el-col>
         </el-row>
     </div>
 </template>
@@ -19,6 +21,7 @@
 <script>
     import Vue from 'vue'
     import {Menu, Submenu, MenuItemGroup, MenuItem} from "element-ui";
+    import indexAside from "./indexAside"
 
     Vue.use(Menu);
     Vue.use(MenuItem);
@@ -26,8 +29,12 @@
     Vue.use(Submenu);
     export default {
         name: 'index-body',
+        components:{
+            indexAside,
+        },
         data: function () {
             return {
+                isDoc: false,
                 docs : [
                     {
                         title: "第一篇",

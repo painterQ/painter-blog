@@ -5,34 +5,15 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        viewState: {
-            index: 1,
-            asideSwitch: true,
-        },
-        login: false,
-        logInState:{
-            email: "",
-            lastLogin: [],  //最近10次的登录ip，时间
-            avatar: null, //image对象
-            baseInfoForm: {
-                mail: '',
-                github: '',
-            },
-            blogInfoForm: {
-                nickName: '',
-                title: '',
-                motto: '',
-                IPC: '',
-                beforeArchive: '',
-                beforeTopic: '',
-            },
+        author:{
+            name : "乔沛杨",
+            avatar: "./",
+            lastLogin: Date.now(),
+            notice: "通知：这是一条重要通知哦",
+            aboutMe: "自我介绍"
         }
     },
-    // getters: {
-    //     doneTodos: state => {
-    //         return state.todos.filter(todo => todo.done)
-    //     }
-    // },
+
     mutations: {
         changeIndex: (state, index) => {
             state.viewState.index = index
