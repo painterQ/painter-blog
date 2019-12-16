@@ -6,9 +6,13 @@
             <span class="index-header-text">标签</span>
             <span class="index-header-text">目录</span>
         </div>
-        <div class="index-header-title-all">
-            <h1 class="index-header-title">乔沛杨</h1>
-            <span class="index-header-subtitle">个人博客</span>
+        <div  class="index-header-title-all">
+            <div class="index-header-title-center">
+                <div class="tags"><i>标签</i></div>
+                <h1 class="index-header-title">乔沛杨</h1>
+                <h2 class="index-header-subtitle">个人博客</h2>
+                <span class="meta">post by 乔</span>
+            </div>
         </div>
     </div>
 </template>
@@ -20,6 +24,27 @@
 </script>
 
 <style scoped>
+    .index-header-title-center{
+        margin: 2em auto;
+        width: 1024px;
+    }
+    .tags > a {
+        display: inline-block;
+        border: 1px solid rgba(255, 255, 255, .8);
+        border-radius: 999em;
+        padding: 0 10px;
+        color: #fff;
+        line-height: 24px;
+        font-size: 12px;
+        text-decoration: none;
+        margin: 0 1px 6px 1px;
+    }
+    .meta{
+        font-family: 'Lora', 'Times New Roman', serif;
+        font-style: italic;
+        font-weight: 300;
+        font-size: 18px;
+    }
     .index-header-bar, .index-header-title-all{
         color: #fff;
     }
@@ -39,11 +64,10 @@
         padding: 0 2px 10px;
     }
     .index-header-title-all{
-        text-align: center;
         padding: 0 0 2em 0;
     }
     .index-header-title{
-        font-size: 2em;
+        font-size: 4em;
         margin: 0 0 10px 0;
     }
     .index-header-subtitle{

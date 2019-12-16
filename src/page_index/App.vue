@@ -62,5 +62,16 @@ export default {
  body{
    margin: 0;
    box-sizing: border-box;
+   line-height: 1.7;
  }
+p{
+  text-indent: 2em;
+  margin: 2em 0;
+}
+h1,h2,h3,h4,h5,h6{
+  font-family: -apple-system, "Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "Microsoft JhengHei", "Source Han Sans SC", "Noto Sans CJK SC", "Source Han Sans CN", "Noto Sans SC", "Source Han Sans TC", "Noto Sans CJK TC", "WenQuanYi Micro Hei", SimSun, sans-serif;
+  line-height: 1.7;
+  line-height: 1.1;
+  font-weight: 700;
+}
 </style>

@@ -2,27 +2,27 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import {Aside, Button, Col, Container, Footer, Header, Main, Row } from "element-ui";
 
-import painterSetting from "../components/setting"
 import tinyMEC from "../components/document"
+import indexDocsBody from "../components/indexDocsBody";
+import indexBody from "../components/indexBody";
 import notFound from "../components/page404"
-import painterManager from "../components/manage"
 
 const routes = [
     {
         path: '/',
-        redirect : '/home',
+        redirect : '/list',
     },
     {
-        path: '/home',
-        component: painterSetting
+        path: "/list",
+        component: indexBody,
     },
     {
-        path: '/document',
+        path: '/doc',
+        component: indexDocsBody
+    },
+    {
+        path: '/tags',
         component: tinyMEC
-    },
-    {
-        path: '/manage',
-        component: painterManager
     },
     {
         path: '/404',
