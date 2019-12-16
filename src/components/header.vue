@@ -20,7 +20,7 @@
 
 <script>
     export default {
-        name: "painter-header",
+        name: "index-body",
         data: function () {
             return {
                 logo:{
