@@ -6,20 +6,18 @@ el-container el-aside el-header el-footer
     <div>
         <index-header class="index-layout-header"></index-header>
         <main class="index-layout-main">
-            <index-body></index-body>
+            <router-view></router-view>
         </main>
     </div>
 </template>
 
 <script>
-    import indexBody from "../components/indexBody"
-    import indexHeader from "../components/indexHeader"
+    import indexHeader from "../components/indexHeader";
 
     export default {
         name: 'layout',
         components: {
             indexHeader,
-            indexBody,
         },
         props: {
             msg: String
@@ -50,7 +48,6 @@ el-container el-aside el-header el-footer
 
     .index-layout-header {
         padding: 0;
-        min-height: 40vh;
         width: auto;
         margin: 0 0;
         background-image: url("../../public/background.jpg");
