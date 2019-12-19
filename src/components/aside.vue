@@ -71,8 +71,8 @@
                             return;
                         case "3":
                             replace ?
-                                this.$router.replace('/manage') :
-                                this.$router.push('/manage');
+                                this.$router.replace('/manage/docs') :
+                                this.$router.push('/manage/docs');
                             this.$store.commit('changeIndex',index);
                             return;
                         default:

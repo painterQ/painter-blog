@@ -16,6 +16,14 @@ function changePwdChange(info) {
     return util.post("/info/pwd", info)
 }
 
+function getDocsList(info) {
+    return util.post("/docs", info)
+}
 
 //导出 default的含义
-export {login, changeBaseInfo,changeBlogInfo,changePwdChange}
+export default {
+    login,
+    changeBaseInfo,
+    changeBlogInfo,
+    changePwdChange,
+    getDocsList}

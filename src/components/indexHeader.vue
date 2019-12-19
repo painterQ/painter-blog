@@ -2,14 +2,14 @@
     <div>
         <div class="index-header-bar">
             <img class="index-header-logo" src="../../public/avatar.jpeg"/>
-            <span class="index-header-text">关于我</span>
-            <span class="index-header-text">标签</span>
-            <span class="index-header-text">目录</span>
+            <span @click="this.clickAboutMe">关于我</span>
+            <span @click="this.clickTags">标签</span>
+            <span @click="this.clickContent">目录</span>
         </div>
         <div  class="index-header-title-all">
             <div class="index-header-title-center">
                 <div class="tags"><i>标签</i></div>
-                <h1 class="index-header-title">乔沛杨</h1>
+                <h1 class="index-header-title">{{this.$store.state.author.name}}</h1>
                 <h2 class="index-header-subtitle">个人博客</h2>
                 <span class="meta">post by 乔</span>
             </div>
@@ -19,7 +19,18 @@
 
 <script>
     export default {
-        name: "index-header"
+        name: "index-header",
+        method: {
+            clickAboutMe() {
+
+            },
+            clickTags() {
+
+            },
+            clickContent() {
+
+            },
+        }
     }
 </script>
 
@@ -52,7 +63,7 @@
         width: 100%;
         padding: 20px;
     }
-    .index-header-text{
+    .index-header-bar > span{
         margin-right: 22px;
         padding: 0 10px 2px;
         float: right;
