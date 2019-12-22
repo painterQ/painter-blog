@@ -1,7 +1,12 @@
 import util from './axios.config'
 
 function login(user) {
+    console.log("login")
     return util.post("/login",user)
+}
+
+function uploadImage(data) {
+   return util.post('/doc/image',data)
 }
 
 function changeBaseInfo(info) {
@@ -20,10 +25,21 @@ function getDocsList(info) {
     return util.post("/docs", info)
 }
 
+function getDoc(info) {
+    return util.get("/doc", info)
+}
+
+function postDoc(info){
+    return util.post("/doc", info)
+}
+
 //导出 default的含义
 export default {
     login,
     changeBaseInfo,
     changeBlogInfo,
     changePwdChange,
-    getDocsList}
+    getDocsList,
+    getDoc,
+    uploadImage,
+    postDoc}

@@ -1,13 +1,7 @@
-<!--
-使用vw和vh做单位可以全屏，另一种方法是设置html宽度和高度为100%
-el-container el-aside el-header el-footer
---->
 <template>
     <div>
-        <index-header class="index-layout-header"></index-header>
-        <main class="index-layout-main">
-            <router-view></router-view>
-        </main>
+        <index-header></index-header>
+        <router-view class="index-layout-main"></router-view>
     </div>
 </template>
 
@@ -45,13 +39,6 @@ el-container el-aside el-header el-footer
     liner-gradient()
     radial-gradient()
     */
-
-    .index-layout-header {
-        padding: 0;
-        width: auto;
-        margin: 0 0;
-        background-image: url("../../public/background.jpg");
-    }
 
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

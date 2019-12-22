@@ -1,7 +1,6 @@
 import Mock from 'mockjs'
 
 Mock.mock('/docs', 'post', (options) => {
-    console.log('options:', options);
     let data = JSON.parse(options.body);
     let length = data.length;
     let ret = [];
@@ -14,6 +13,11 @@ Mock.mock('/docs', 'post', (options) => {
     }
     return ret
 });
+
+Mock.mock('/doc', 'get', () => {
+    return doc
+});
+let doc = "文章文章文章"
 
 let docsList = [
     {

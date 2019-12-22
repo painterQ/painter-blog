@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <div class="index-header-bar">
+    <div class="index-layout-header">
+        <div class="index-header-bar" v-if="this.showBar">
             <img class="index-header-logo" src="../../public/avatar.jpeg"/>
-            <span @click="this.clickAboutMe">关于我</span>
-            <span @click="this.clickTags">标签</span>
-            <span @click="this.clickContent">目录</span>
+                <router-link to="/doc">关于我</router-link>
+                <router-link to="/list">标签</router-link>
+                <router-link to="/list">目录</router-link>
         </div>
         <div  class="index-header-title-all">
             <div class="index-header-title-center">
@@ -20,31 +20,41 @@
 <script>
     export default {
         name: "index-header",
-        method: {
-            clickAboutMe() {
-
-            },
-            clickTags() {
-
-            },
-            clickContent() {
-
-            },
-        }
+        data: function(){
+          return{
+              lastScroll : 0,
+              showBar: true
+          }
+        },
+        methods: {
+            menu() {
+                let scroll = document.documentElement.scrollTop || document.body.scrollTop;
+                this.showBar = scroll <= this.lastScroll || scroll == 0
+                this.lastScroll = scroll
+            }
+        },
+        mounted() {
+            window.addEventListener('scroll', this.menu, true)
+        },
     }
 </script>
 
 <style scoped>
+    .index-layout-header, .index-header-bar::before{
+        background: url("../../public/background.jpg") bottom / cover fixed;
+        color: #fff;
+    }
+
     .index-header-title-center{
         margin: 2em auto;
         width: 1024px;
     }
-    .tags > a {
+    .tags > i {
         display: inline-block;
         border: 1px solid rgba(255, 255, 255, .8);
         border-radius: 999em;
         padding: 0 10px;
-        color: #fff;
+        color: orange;
         line-height: 24px;
         font-size: 12px;
         text-decoration: none;
@@ -56,26 +66,40 @@
         font-weight: 300;
         font-size: 18px;
     }
-    .index-header-bar, .index-header-title-all{
-        color: #fff;
-    }
+
     .index-header-bar{
         width: 100%;
-        padding: 20px;
+        position: fixed;
+        background: rgba(255, 255, 255, .3);
     }
-    .index-header-bar > span{
-        margin-right: 22px;
+
+    .index-header-bar::before{
+        position: absolute;
+        top: 0; left: 0;right: 0; bottom: 0;
+        content: '';
+        filter: blur(10px);
+        z-index: -1;
+    }
+
+    .index-header-bar > *{
         padding: 0 10px 2px;
+        margin: 7px;
         float: right;
+        text-decoration:none;
+        color: #fff;
     }
+
+    /*a .router-link-active{*/
+    /*    color: #3399ff;*/
+    /*}*/
     .index-header-logo{
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
         margin-right: 22px;
         padding: 0 2px 10px;
     }
     .index-header-title-all{
-        padding: 0 0 2em 0;
+        padding: 4em 0;
     }
     .index-header-title{
         font-size: 4em;

@@ -1,6 +1,7 @@
 <template>
     <div>
         <el-row class="index-body-all">
+
             <el-col  :span="18" class="index-body-main">
                 <div v-for="(arts, colIndex) in this.$store.state.docs" :key="colIndex" class="index-body-docs-item">
                     <h2 class="art">
@@ -12,8 +13,10 @@
                     <hr/>
                 </div>
             </el-col>
+
+
             <el-col  :span="6" class="index-body-aside">
-                <index-aside :transfer-data=isDoc></index-aside>
+                <span>aside</span>
             </el-col>
         </el-row>
     </div>
@@ -22,7 +25,6 @@
 <script>
     import Vue from 'vue'
     import {Menu, Submenu, MenuItemGroup, MenuItem} from "element-ui";
-    import indexAside from "./indexAside"
 
     Vue.use(Menu);
     Vue.use(MenuItem);
@@ -31,15 +33,17 @@
     export default {
         name: 'index-body',
         components:{
-            indexAside,
+
         },
         data: function () {
             return {
                 isDoc: false,
             }
         },
-        route:{
-
+        created() {
+            console.log("create")
+            this.$store.commit("getDocs");
+            this.$store.commit("getDoc");
         }
     }
 </script>
@@ -47,6 +51,9 @@
 <style scoped>
     .index-body-aside{
        padding-left: 15px;
+    }
+    .index-body-main{
+        padding-top: 2em;
     }
     .index-body-docs-item > div{
         font-family: 'Lora', 'Times New Roman',serif;

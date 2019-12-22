@@ -18,6 +18,12 @@ Mock.mock('/login', 'post', (options) => {
     }
 });
 
+Mock.mock('/doc/image', 'post', (options) => {
+    console.log('options:', options)
+    console.log("上传图片")
+    return {'url':"http://localhost:8080/public/img/background.0ed615ed.jpg"}
+});
+
 let r = [];
 for(let i = 0;i<160;i++){
     r.push(i + "曦曦 爱你".repeat(Math.ceil(Math.random() * 20)))
@@ -44,6 +50,11 @@ Mock.mock('/info/blog', 'post', (options) => {
 });
 
 Mock.mock('/info/pwd', 'post', (options) => {
+    console.log('options:', options);
+    return {ok:true};
+});
+
+Mock.mock('/doc', 'post', (options) => {
     console.log('options:', options);
     return {ok:true};
 });

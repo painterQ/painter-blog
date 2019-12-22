@@ -36,7 +36,7 @@
     import vue from 'vue'
     import {Dialog} from 'element-ui'
     import message from "./message";
-    import {login} from "../api/rpc";
+    import api from "../api/rpc";
 
     vue.use(Dialog);
     export default {
@@ -65,7 +65,7 @@
                 this.pwd = '';
             },
             loginSubmit() {
-                login({'mail':this.mail, 'password':this.pwd}).then(
+                api.login({'mail':this.mail, 'password':this.pwd}).then(
                     ()=>{this.$store.commit("changeLogin", true);}
                 ).catch(e=>{
                     message(this, "登录失败:"+e, "error");

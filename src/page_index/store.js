@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import api from '@/api/rpc'
+import api from '../api/rpc'
 
 Vue.use(Vuex);
 
@@ -14,11 +14,27 @@ const store = new Vuex.Store({
             notice: "通知：这是一条重要通知哦",
             aboutMe: "自我介绍"
         },
-        tags: [{}],
-        docs: [],
+        doc: {},
+        docs :[]
     },
 
     mutations: {
+        getDoc: (state, id) => {
+            api.getDoc({id: id}).then(
+                (data)=>{
+                    state.doc.text = data.data || ""
+                    console.log("ddd",data)
+                }
+            )
+        },
+        getDocs: (state)=>{
+            api.getDocsList({'start':0, 'length': 10}).then(
+                (data)=>{
+                    state.docs = data.data || {}
+                    console.log("ddd",data)
+                }
+            )
+        },
         changeStatus: (state, index) => {
             state.viewState.index = index
         },

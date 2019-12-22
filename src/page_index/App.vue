@@ -61,8 +61,10 @@ export default {
 }
  body{
    margin: 0;
-   box-sizing: border-box;
    line-height: 1.7;
+ }
+ *{
+   box-sizing: border-box;
  }
 p{
   text-indent: 2em;

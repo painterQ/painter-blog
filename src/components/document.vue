@@ -2,9 +2,8 @@
     <div id="document">
         <el-divider class= "line" content-position="left">撰写文章</el-divider>
         <el-form ref="form" label-width="80px" id="tinymce-editor-form">
-
             <div class="operation-flex-container">
-                <el-button id="release" >发布</el-button>
+                <el-button id="release" @click="this.release">发布</el-button>
                 <el-button id="save" >保存草稿</el-button>
                 <el-button id="delete" >删除</el-button>
                 <el-input type="text" placeholder="请输入标题"
@@ -19,15 +18,17 @@
             <editor v-model="myValue"
                     :init="init"
                     :disabled="disabled"
-                    name="document"
-                    @onClick="onClick">
+                    id = "tiny"
+                    name="document">
             </editor>
+<!--            <el-input ref="submit" type="submit"></el-input>-->
         </el-form>
     </div>
 </template>
 <script>
     import tinymce from 'tinymce/tinymce'
     import Editor from '@tinymce/tinymce-vue'
+    import api from '../api/rpc'
     import 'tinymce/themes/silver'
     // 编辑器插件plugins
     // 更多插件参考：https://www.tiny.cloud/docs/plugins/
@@ -69,6 +70,7 @@
                 init: {
                     language_url: `${this.baseUrl}/tinymce/langs/zh_CN.js`,
                     language: 'zh_CN',
+                    selector: `#${this.tinymceId}`,
                     skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide`,
                     content_css: `${this.baseUrl}/tinymce/skins/content/default/content.css`,
                     // skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide-dark`, // 暗色系
@@ -78,36 +80,95 @@
                     toolbar: this.toolbar,
                     branding: false,
                     menubar: false,
+                    //粘贴图片
+                    paste_data_images:true,
+                    //TinyMCE 会将所有的 font 元素转换成 span 元素
+                    convert_fonts_to_spans: true,
+                    //换行符会被转换成 br 元素
+                    convert_newlines_to_brs: false,
+                    //在换行处 TinyMCE 会用 BR 元素而不是插入段落
+                    force_br_newlines: false,
+                    //当返回或进入 Mozilla/Firefox 时，这个选项可以打开/关闭段落的建立
+                    force_p_newlines: false,
+                    //这个选项控制是否将换行符从输出的 HTML 中去除。选项默认打开，因为许多服务端系统将换行转换成 <br />，因为文本是在无格式的 textarea 中输入的。使用这个选项可以让所有内容在同一行。
+                    remove_linebreaks: false,
+                    //不能把这个设置去掉，不然图片路径会出错
+                    relative_urls: false,
+                    //不允许拖动大小
+                    resize: true,
                     // 此处为图片上传处理函数，这个直接用了base64的图片形式上传图片，
                     // 如需ajax上传可参考https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
                     images_upload_handler: (blobInfo, success, /*failure*/) => {
-                        const img = 'data:image/jpeg;base64,' + blobInfo.base64()
-                        success(img)
+                        if (blobInfo.blob().type >= 0) {
+                            uploadPic()
+                        } else {
+                            console.log('图片格式错误')
+                        }
+                        function uploadPic () {
+                            const img = 'data:image/jpeg;base64,' + blobInfo.base64()
+                                api.uploadImage(img).then((res) => {
+                                    // 这里返回的是你图片的地址
+                                    success(res.data.url)
+                                }).catch(() => {
+                                    console.log('上传失败')
+                                })
+                        }
+                    },
+                    setup (editor) {
+                        editor.on('FullscreenStateChanged', (e) => {
+                            this.fullscreen = e.state
+                        })
+                        editor.on('init', function () {
+                            if (editor.getContent() === '') {
+                                editor.setContent('<p id=\'#imThePlaceholder\'>请输入内容（限2000个字符）</p>')
+                            }
+                        })
+                        editor.on('focus', function () {
+                            editor.setContent(this.value)
+                        })
                     }
+
                 },
-                myValue: this.value,
                 title: '',
-                path: ''
+                path: '',
+                myValue: '',
+                //很关键
+                tinymceId: "tiny",
+                fullscreen: false,
             }
         },
         methods: {
             // 添加相关的事件，可用的事件参照文档=> https://github.com/tinymce/tinymce-vue => All available events
             // 需要什么事件可以自己增加
-            onClick(e) {
-                this.$emit('onClick', e, tinymce)
+            release() {
+                api.postDoc({
+                    title: this.title,
+                    path: this.path,
+                    document: this.myValue,
+                })
             },
             // 可以添加一些自己的自定义事件，如清空内容
             clear() {
-                this.myValue = ''
-            }
+                this.value = ''
+            },
+            getContent () {
+                return tinymce.get(this.tinymceId).getContent()
+            },
+            setContent (value) {
+                tinymce.get(this.tinymceId).setContent(value)
+            },
         },
         watch: {
-            value(newValue) {
-                this.myValue = newValue
+            value (val) {
+                try {
+                    if (this.value !== this.getContent()) {
+                        this.$nextTick(() =>
+                            tinymce.get(this.tinymceId).setContent(val || ''))
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
             },
-            myValue(newValue) {
-                this.$emit('input', newValue)
-            }
         }
     }
 </script>
