@@ -17,8 +17,11 @@ Mock.mock('/docs', 'post', (options) => {
     return ret
 });
 
-Mock.mock('/doc', 'get', (opt) => {
-    return "文章" + opt.id + "...";
+Mock.mock(/\/doc\/.+/, 'get', (opt) => {
+    //opt含有 url、type 和 body 三个属性
+    let s = opt.url.split("/");
+    let para = s[s.length -1];
+    return "文章" + para + "...";
 });
 
 let docsList = [

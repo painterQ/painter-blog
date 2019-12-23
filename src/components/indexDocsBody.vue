@@ -1,9 +1,9 @@
 <template>
     <div>
         <el-row class="index-body-all">
-            <el-col  :span="17" class="index-body-main">\
+            <el-col  :span="17" class="index-body-main">
                 <!-- learn: 插入HTML-->
-                <main v-html='renderDocs'></main>
+                <main v-html='document'></main>
                 <div class="doc-bottom">
                     <h2>推荐文章</h2>
                     <ul>
@@ -29,28 +29,36 @@
 </template>
 
 <script>
+    import api from '../api/rpc'
+    import message from "../api/message";
     export default {
         name: "index-docs-body",
         data: function () {
             return{
-                documentIndex: ""
+                document: "",
             }
         },
-        computed:{
-            renderDocs(){
-                let content = this.$store.state.docs[this.$store.state.currentID]
-                if (content === null){
-                    this.$store.Commit("getDocs", {start:"content.id",length: 1})
+        methods:{
+            render(){
+                let newV = '/' + this.$route.params.docID;
+                message(this,"id:" + newV,'warning');
+                if (this.$store.state.docs[newV].content === ""){
+                    api.getDoc(newV).then(
+                        (data)=>{
+                            console.log('data',data)
+                            this.$store.commit('updateDoc',newV,data.data.content);
+                            this.document = data.data.content
+                        }
+                    ).catch(
+                        err =>{
+                            message(this,"获取文章失败"+err,'warning');
+                            this.$router.push("/404")
+                        }
+                    )
                 }
-                content = this.$store.state.docs[this.$store.state.currentID]
-
-                this.$store.Commit("setCurrent",this.$route.params.docID)
-                if(content.content === ''){
-                    this.$store.Commit("getDoc", content.id)
-                }
-                return content.content
+                this.document = this.$store.state.docs[newV].content || ""
             }
-        }
+        },
     }
 </script>
 
@@ -88,4 +96,19 @@
         margin-left: 1em;
     }
     /*p h1 h2 h3 h4 h5 h6*/
+    main p{
+
+    }
+    main h1{
+
+    }
+    main h2{
+
+    }
+    main h3{
+
+    }
+    main h4, main h5, main h6{
+
+    }
 </style>

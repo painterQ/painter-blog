@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import api from '../api/rpc'
 
 Vue.use(Vuex);
 
@@ -73,13 +72,6 @@ const store = new Vuex.Store({
             },
             addDocs:
                 (state, range) => {
-                //     api.getDocsList(range).then(
-                //         (data) => {
-                //             for(let i of data.data){
-                //                 state.docs[i.id] = i
-                //             }
-                //         }
-                //     )
                     for(let i of range){
                             state.docs[i.id] = i
                         }

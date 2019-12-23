@@ -2,7 +2,7 @@
     <div class="index-layout-header">
         <div class="index-header-bar" v-if="this.showBar">
             <img class="index-header-logo" src="../../public/avatar.jpeg"/>
-                <router-link to="/doc">关于我</router-link>
+                <router-link :to="'/doc' + this.$store.state.currentID">关于我</router-link>
                 <router-link to="/list">标签</router-link>
                 <router-link to="/list">目录</router-link>
         </div>
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+    import api from '../api/rpc'
+    import message from "../api/message";
     export default {
         name: "index-header",
         data: function(){
@@ -29,13 +31,21 @@
         methods: {
             menu() {
                 let scroll = document.documentElement.scrollTop || document.body.scrollTop;
-                this.showBar = scroll <= this.lastScroll || scroll == 0
+                this.showBar = scroll <= this.lastScroll || scroll === 0;
                 this.lastScroll = scroll
             }
         },
         mounted() {
             window.addEventListener('scroll', this.menu, true)
         },
+        created() {
+            console.log("create header");
+            api.getDocsList({start:'/doc10',length: 10}).then(
+                data =>{
+                    this.$store.commit('addDocs', data.data)
+                }
+            ).catch(err=>{message(this,"get list err"+err, "error")});
+        }
     }
 </script>
 

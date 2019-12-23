@@ -28,12 +28,8 @@ function getDocsList(info) {
 * info: {id: '/doc0'}
 * data: {content: '文章'}  or {error: '...'}
 * */
-function getDoc(info, callback) {
-    return util.get("/doc", info).then(
-        (data) =>{
-            callback(data)
-        }
-    )
+function getDoc(info) {
+    return util.get("/doc", info)
 }
 
 function postDoc(info){

@@ -35,7 +35,7 @@
 <script>
     import vue from 'vue'
     import {Dialog} from 'element-ui'
-    import message from "./message";
+    import message from "../api/message";
     import api from "../api/rpc";
 
     vue.use(Dialog);
