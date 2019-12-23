@@ -42,7 +42,7 @@
         },
         created() {
             console.log("create")
-            this.$store.commit("getDocs");
+            this.$store.commit("getDocs", {start:'/doc10',length: 10});
             this.$store.commit("getDoc");
         }
     }

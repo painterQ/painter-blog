@@ -24,9 +24,16 @@ function changePwdChange(info) {
 function getDocsList(info) {
     return util.post("/docs", info)
 }
-
-function getDoc(info) {
-    return util.get("/doc", info)
+/*
+* info: {id: '/doc0'}
+* data: {content: '文章'}  or {error: '...'}
+* */
+function getDoc(info, callback) {
+    return util.get("/doc", info).then(
+        (data) =>{
+            callback(data)
+        }
+    )
 }
 
 function postDoc(info){

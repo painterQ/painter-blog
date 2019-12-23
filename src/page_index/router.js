@@ -17,7 +17,7 @@ const routes = [
         component: indexBody,
     },
     {
-        path: '/doc',
+        path: '/doc/:docID',
         component: indexDocsBody
     },
     {

@@ -18,7 +18,6 @@
             <editor v-model="myValue"
                     :init="init"
                     :disabled="disabled"
-                    id = "tiny"
                     name="document">
             </editor>
 <!--            <el-input ref="submit" type="submit"></el-input>-->
@@ -26,7 +25,7 @@
     </div>
 </template>
 <script>
-    import tinymce from 'tinymce/tinymce'
+    import 'tinymce/tinymce'
     import Editor from '@tinymce/tinymce-vue'
     import api from '../api/rpc'
     import 'tinymce/themes/silver'
@@ -70,7 +69,6 @@
                 init: {
                     language_url: `${this.baseUrl}/tinymce/langs/zh_CN.js`,
                     language: 'zh_CN',
-                    selector: `#${this.tinymceId}`,
                     skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide`,
                     content_css: `${this.baseUrl}/tinymce/skins/content/default/content.css`,
                     // skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide-dark`, // 暗色系
@@ -85,7 +83,7 @@
                     //TinyMCE 会将所有的 font 元素转换成 span 元素
                     convert_fonts_to_spans: true,
                     //换行符会被转换成 br 元素
-                    convert_newlines_to_brs: false,
+                    convert_newlines_to_brs: true,
                     //在换行处 TinyMCE 会用 BR 元素而不是插入段落
                     force_br_newlines: false,
                     //当返回或进入 Mozilla/Firefox 时，这个选项可以打开/关闭段落的建立
@@ -99,11 +97,11 @@
                     // 此处为图片上传处理函数，这个直接用了base64的图片形式上传图片，
                     // 如需ajax上传可参考https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
                     images_upload_handler: (blobInfo, success, /*failure*/) => {
-                        if (blobInfo.blob().type >= 0) {
+                        // if (this.allowedFileTypes.indexOf(blobInfo.blob.type) > -1) {
                             uploadPic()
-                        } else {
-                            console.log('图片格式错误')
-                        }
+                        // } else {
+                        //     console.log('图片格式错误')
+                        // }
                         function uploadPic () {
                             const img = 'data:image/jpeg;base64,' + blobInfo.base64()
                                 api.uploadImage(img).then((res) => {
@@ -114,27 +112,12 @@
                                 })
                         }
                     },
-                    setup (editor) {
-                        editor.on('FullscreenStateChanged', (e) => {
-                            this.fullscreen = e.state
-                        })
-                        editor.on('init', function () {
-                            if (editor.getContent() === '') {
-                                editor.setContent('<p id=\'#imThePlaceholder\'>请输入内容（限2000个字符）</p>')
-                            }
-                        })
-                        editor.on('focus', function () {
-                            editor.setContent(this.value)
-                        })
-                    }
 
                 },
                 title: '',
                 path: '',
                 myValue: '',
-                //很关键
-                tinymceId: "tiny",
-                fullscreen: false,
+                allowedFileTypes : ["image/png", "image/jpeg", "image/gif"],
             }
         },
         methods: {
@@ -149,27 +132,9 @@
             },
             // 可以添加一些自己的自定义事件，如清空内容
             clear() {
-                this.value = ''
-            },
-            getContent () {
-                return tinymce.get(this.tinymceId).getContent()
-            },
-            setContent (value) {
-                tinymce.get(this.tinymceId).setContent(value)
+                this.myValue = ''
             },
         },
-        watch: {
-            value (val) {
-                try {
-                    if (this.value !== this.getContent()) {
-                        this.$nextTick(() =>
-                            tinymce.get(this.tinymceId).setContent(val || ''))
-                    }
-                } catch (e) {
-                    console.log(e)
-                }
-            },
-        }
     }
 </script>
 

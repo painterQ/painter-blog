@@ -1,14 +1,9 @@
 <template>
     <div>
         <el-row class="index-body-all">
-            <el-col  :span="17" class="index-body-main">
-                <main>
-                    <h1>甘肃</h1>
-                    <p>位于我国大西北的甘肃，是中华文化的发祥地之一，华夏始祖伏羲氏在这里推八卦、授渔猎，当然也是个知名大省，其中有堪称世界石窟壁画艺术宝库的敦煌莫高窟、以泥塑著称于世的天水麦积山石窟、万里长城的最西端嘉峪关等。</p>
-                    <p>意大利旅行家马可·波罗东游中国时也曾在此停留，当然，在甘肃，也有很多丰富多彩的寺庙，比如拉卜楞寺、大佛寺、大云寺等，不过，在众多寺庙中，有一座很独特的寺庙，修在悬崖之上，比悬空寺还险，网友直呼：怎么修的？</p>
-                    <p>这就是马蹄寺，位于肃南裕固族自治县境内，是集石窟艺术、祁连山风光和裕固族风情于一体的旅游区。寺庙始建于东晋年间，至今已经有1600多年的历史，原为汉传佛教寺院，后来逐渐发展为藏传佛教格鲁派的寺院，为青海东科尔寺的属寺之一。</p>
-                    <p>民间传说：天马下凡时一蹄落在了这里的一块岩石上，踩下了一只蹄印，寺院由此而得名，而且马蹄印迹现存于普光寺马蹄殿内，成为镇寺之宝。马蹄寺最大的亮点就是建于悬崖峭壁之上的三十三天石窟，险要程度堪比山西悬空寺，令人不可思议。</p>
-                </main>
+            <el-col  :span="17" class="index-body-main">\
+                <!-- learn: 插入HTML-->
+                <main v-html='renderDocs'></main>
                 <div class="doc-bottom">
                     <h2>推荐文章</h2>
                     <ul>
@@ -18,9 +13,7 @@
                     <hr>
                     <el-button>上一篇</el-button>
                     <el-button style="float:right;">下一篇</el-button>
-                    <div class="coffee">
-                        赏
-                    </div>
+                    <div class="coffee">赏</div>
                     <div class="share">
                         <a class="el-icon-eleme"></a>
                     </div>
@@ -37,7 +30,27 @@
 
 <script>
     export default {
-        name: "index-docs-body"
+        name: "index-docs-body",
+        data: function () {
+            return{
+                documentIndex: ""
+            }
+        },
+        computed:{
+            renderDocs(){
+                let content = this.$store.state.docs[this.$store.state.currentID]
+                if (content === null){
+                    this.$store.Commit("getDocs", {start:"content.id",length: 1})
+                }
+                content = this.$store.state.docs[this.$store.state.currentID]
+
+                this.$store.Commit("setCurrent",this.$route.params.docID)
+                if(content.content === ''){
+                    this.$store.Commit("getDoc", content.id)
+                }
+                return content.content
+            }
+        }
     }
 </script>
 
@@ -74,4 +87,5 @@
         padding: 1em 1em 0 1em;
         margin-left: 1em;
     }
+    /*p h1 h2 h3 h4 h5 h6*/
 </style>
