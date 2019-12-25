@@ -19,11 +19,13 @@
                     </div>
                 </div>
             </el-col>
-            <el-col :span="5" class="index-body-aside">
-<!--                <strong class="tag-tital"></strong>-->
+            <el-col :span="5">
+                <!--                <strong class="tag-tital"></strong>-->
                 <!-- 使用外部插件自动生成目录npm i katelog -S-->
                 <!-- https://github.com/KELEN/katelog-->
-                <div id="doc-cateLog"></div>
+                <div ref="side-bar">
+                <div id="doc-cateLog" ref="doc-cateLog"></div>
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -32,29 +34,50 @@
 <script>
     import api from '../api/rpc'
     import message from "../api/message";
-    import kateLog from 'katelog';
+    import kateLogClass from 'katelog';
     export default {
         name: "index-docs-body",
         data: function () {
             return {
                 kateLog: null,
                 document: "",
+                menuFloat : false
             }
         },
-        watch:{
-            document(newV,oldV){
-                console.log("watch",newV,oldV)
-                this.kateLog.rebuild();
+        watch: {
+            document() {
+                this.$nextTick(() => {
+                    this.kateLog.rebuild();
+                })
             },
         },
+        methods:{
+            menu() {
+                let list = this.$refs['doc-cateLog'].classList;
+                let h = this.$refs['side-bar'].getBoundingClientRect().top;
+                if ( !this.menuFloat && h < 80 ) {
+                    list.remove(["memu_Static"])
+                    list.add(["memu_Float"])
+                    this.menuFloat = !this.menuFloat
+                    console.log("change float")
+                }
+                if( this.menuFloat && h > 80 ){
+                    list.remove(["memu_Float"])
+                    list.add(["memu_Static"])
+                    this.menuFloat = !this.menuFloat
+                    console.log("change static")
+                }
+            }
+        },
         mounted() {
-            this.kateLog = new kateLog({
+            window.addEventListener('scroll', this.menu, true)
+            this.kateLog = new kateLogClass({
                 contentEl: 'doc-content',
                 catelogEl: 'doc-cateLog',
-                // linkClass: 'k-catelog-link',
-                // linkActiveClass: 'k-catelog-link-active',
+                linkClass: 'k-catelog-link',
+                linkActiveClass: 'k-catelog-link-active',
                 // supplyTop: 20,
-                // selector: ['h2', 'h3'],
+                selector: ['h2', 'h3'],
                 active: null
             });
             /*this.document = `<h1>标题</h1>
@@ -62,7 +85,7 @@
                     <h2>1.二级标题</h2>
                     <h3>1.1三级标题</h3>
                     <p>文章</p>
-                    <h3>1.2三级标题</h3>
+                    <h3>1.2三级标题特别长特别长特别长特别长特别长特别长特别长特别长特别长特别长</h3>
                     <p>文章</p>
                     <h2>2.二级标题</h2>
                     <p>文章</p>
@@ -95,6 +118,12 @@
 </script>
 
 <style scoped>
+    .memu_Static {
+        position: static; top: auto;
+    }
+    .memu_Float {
+        position: sticky; top: 80px;
+    }
     .coffee {
         font-size: 28px;
         line-height: 58px;
@@ -147,5 +176,20 @@
     }
     main h4, main h5, main h6{
 
+    }
+</style>
+
+<style>
+    .k-catelog-link {
+        font-size: 0.7em;
+        word-break: keep-all;
+    }
+
+    #doc-cateLog li{
+        display: block;
+    }
+
+    .k-catelog-link-active {
+        color: red;
     }
 </style>
