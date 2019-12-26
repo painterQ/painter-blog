@@ -1,33 +1,31 @@
 <template>
     <div>
-        <el-row class="index-body-all">
-            <el-col :span="16" class="index-body-main">
-                <!-- learn: 插入HTML-->
-                <main id="doc-content" v-html="document"></main>
-                <div class="doc-bottom">
-                    <h2>推荐文章</h2>
-                    <ul>
-                        <li>文章一</li>
-                        <li>文章二</li>
-                    </ul>
-                    <hr>
-                    <el-button>上一篇</el-button>
-                    <el-button style="float:right;">下一篇</el-button>
-                    <div class="coffee">赏</div>
-                    <div class="share">
-                        <a class="el-icon-eleme"></a>
-                    </div>
-                </div>
-            </el-col>
-            <el-col :span="5">
+        <div class="index-body-all">
+            <div class="index-body-aside">
                 <!--                <strong class="tag-tital"></strong>-->
                 <!-- 使用外部插件自动生成目录npm i katelog -S-->
                 <!-- https://github.com/KELEN/katelog-->
-                <div ref="side-bar">
-                    <div id="doc-cateLog" ref="doc-cateLog"></div>
-                </div>
-            </el-col>
-        </el-row>
+                <div id="doc-cateLog" ref="doc-cateLog" ></div>
+            </div>
+            <div  class="index-body-main">
+                <!-- learn: 插入HTML-->
+                <main id="doc-content" v-html="document"></main>
+            </div>
+        </div>
+        <div class="doc-bottom">
+            <h2>推荐文章</h2>
+            <ul>
+                <li>文章一</li>
+                <li>文章二</li>
+            </ul>
+            <hr>
+            <el-button @click="prevDoc">上一篇</el-button>
+            <el-button style="float:right;" @click="nextDoc">下一篇</el-button>
+            <div class="coffee">赏</div>
+            <div class="share">
+                <a class="el-icon-eleme"></a>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -40,44 +38,39 @@
         name: "index-docs-body",
         data: function () {
             return {
+                scroll : 0,
                 kateLog: null,
                 document: "",
                 menuFloat: false
             }
         },
         watch: {
-            document() {
+            document(nv,ov) {
+                console.log("document change, target watch", ov,nv)
                 this.$nextTick(() => {
                     this.kateLog.rebuild();
                 })
             },
         },
         methods: {
-            menu() {
-                let list = this.$refs['doc-cateLog'].classList;
-                let h = this.$refs['side-bar'].getBoundingClientRect().top;
-                if (!this.menuFloat && h < 80) {
-                    list.remove("menu_Static")
-                    list.add("menu_Float")
-                    this.menuFloat = !this.menuFloat
-                    console.log("change float")
-                }
-                if (this.menuFloat && h > 80) {
-                    list.remove("menu_Float")
-                    list.add("menu_Static")
-                    this.menuFloat = !this.menuFloat
-                    console.log("change static")
-                }
+            prevDoc(){
+                //仍然在当前组件，所以只是复用，没有重新触发mounted
+                this.$router.push("/doc/doc0");
+                this.render()
+            },
+            nextDoc(){
+                this.$router.push("/doc/doc3");
+                this.render()
             },
             render() {
                 let newV = '/' + this.$route.params.docID;
                 console.log('change docs', "id:" + newV);
                 //todo缓存
-                api.getDoc(newV).then(
+                api.getDoc({doc:newV}).then(
                     (data) => {
                         console.log('data', data);
                         this.$store.commit('updateDoc', newV, data.data.content);
-                        this.document = data.data.content
+                        this.document = data.data
                     }
                 ).catch(
                     err => {
@@ -86,36 +79,30 @@
                     }
                 );
 
-            },
-            mounted() {
-                console.log("doc page mounted ")
-                // window.addEventListener('scroll', this.menu, true)
-                this.kateLog = new kateLogClass({
-                    contentEl: 'doc-content',
-                    catelogEl: 'doc-cateLog',
-                    linkClass: 'k-catelog-link',
-                    linkActiveClass: 'k-catelog-link-active',
-                    // supplyTop: 20,
-                    selector: ['h2', 'h3'],
-                    active: null
-                });
-                this.render()
-            },
-        }
+            }
+        },
+        mounted() {
+            console.log("doc page mounted ")
+            // window.addEventListener('scroll', ()=>{
+            //     this.scroll = this.$refs['side-bar'].getBoundingClientRect().top
+            // }, true)
+            this.kateLog = new kateLogClass({
+                contentEl: 'doc-content',
+                catelogEl: 'doc-cateLog',
+                linkClass: 'k-catelog-link',
+                linkActiveClass: 'k-catelog-link-active',
+                // supplyTop: 20,
+                selector: ['h2', 'h3'],
+                active: null
+            });
+            console.log("doc page render")
+            this.render()
+
+        },
     }
 </script>
 
 <style scoped>
-    .menu_Static {
-        position: static;
-        top: auto;
-    }
-
-    .menu_Float {
-        position: sticky;
-        top: 80px;
-    }
-
     .coffee {
         font-size: 28px;
         line-height: 58px;
@@ -143,14 +130,27 @@
         margin-right: 0.5em;
     }
 
+    .index-body-all{
+        display: flex;
+        flex-flow: column;
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     .index-body-main {
         margin: 2em;
+        min-width: 30em;
+        max-width: 45em;
     }
 
     .index-body-aside {
         border-left: rgba(88, 88, 88, 0.1) 1px solid;
-        padding: 1em 1em 0 1em;
         margin-left: 1em;
+    }
+    #doc-cateLog{
+        position: sticky;
+        top: 200px;
     }
 
     /*p h1 h2 h3 h4 h5 h6*/

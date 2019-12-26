@@ -55,11 +55,12 @@
     .index-layout-header, .index-header-bar::before{
         background: url("../../public/background.jpg") bottom / cover fixed;
         color: #fff;
+        width: 100vw;
     }
 
     .index-header-title-center{
         margin: 2em auto;
-        width: 1024px;
+        width: 100vw;
     }
     .tags > i {
         display: inline-block;
@@ -80,7 +81,7 @@
     }
 
     .index-header-bar{
-        width: 100%;
+        width: 100vw;
         position: fixed;
         background: rgba(255, 255, 255, .3);
     }

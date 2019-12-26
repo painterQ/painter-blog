@@ -13,7 +13,6 @@ const init = {
             attr: 'top',
             time: Date.now(),
             abstract: '第一篇文章，即将开始美好生活',
-            content: '<h1 style="text-align: center;">标题</h1><br/><p>开始</p><br/><h3>第一段</h3><br/><p>图片</p><br/><p><img src="/public/img/background.0ed615ed.jpg\\" alt="" width="278" height="185" /></p><br/><h3>第二段</h3><br/><p>开始<strong>第二段</strong>吧</p><br/><h3>第三段</h3>'
         }
         ,
         "/doc1": {
@@ -23,7 +22,6 @@ const init = {
             tags: ['原创', 'editor'],
             time: Date.now(),
             abstract: '第一篇文章，即将开始美好生活',
-            content: ''
         }
         ,
         "/doc2": {
@@ -34,7 +32,6 @@ const init = {
             attr: 'top',
             time: Date.now(),
             abstract: '第三篇文章，即将开始美好生活',
-            content: ''
         }
         ,
         "/doc3": {
@@ -44,7 +41,6 @@ const init = {
             tags: ['原创', 'editor'],
             time: Date.now(),
             abstract: '第四篇文章，即将开始美好生活',
-            content: ''
         }};
 
 const store = new Vuex.Store({

@@ -30,7 +30,7 @@
 <style scoped>
 
     .index-layout-main{
-        width: 1024px;
+        max-width: 1024px;
         overflow-y:auto;
         margin: 10px auto;
     }

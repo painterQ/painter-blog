@@ -65,21 +65,19 @@ export default {
    overflow-y:scroll;
  }
 body::-webkit-scrollbar    /*滚动条整体部分*/
+{
+  width: 3px;
+  height:10px;
+  background-color:#b5b1b1;
 
-                                    {
-                                      width: 5px;
-                                      height:10px;
-
-                                      background-color:#b5b1b1;
-
-                                    }
+}
 body::-webkit-scrollbar-track       /*scroll轨道背景*/
-                                             {
-                                               -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-                                               border-radius: 10px;
-                                               background-color:black;
+{
+ -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+ border-radius: 10px;
+ background-color:white;
 
-                                             }
+}
 
 
 
