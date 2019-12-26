@@ -135,18 +135,22 @@
         flex-flow: column;
         flex-direction: row-reverse;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-between;
     }
 
     .index-body-main {
+        align-items: flex-start;
         margin: 2em;
         min-width: 30em;
         max-width: 45em;
+        flex-grow:2;
     }
 
     .index-body-aside {
+        align-items: flex-start;
         border-left: rgba(88, 88, 88, 0.1) 1px solid;
         margin-left: 1em;
+        flex-grow:1;
     }
     #doc-cateLog{
         position: sticky;
