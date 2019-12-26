@@ -8,9 +8,10 @@ Mock.mock('/docs', 'post', (options) => {
     let tmp = null;
     for (let i = 0;i < length;i ++){
         if(Math.random()> 0.5){
-            tmp = docsList[0]
+            //deep copy
+            tmp = JSON.parse(JSON.stringify(docsList[0]))
         }else {
-            tmp = docsList[1]
+            tmp = JSON.parse(JSON.stringify(docsList[1]))
         }
         tmp.id = "/doc/doc" + Math.ceil(Math.random() * 1000);
         ret.push(tmp)

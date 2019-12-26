@@ -3,7 +3,7 @@
         <el-row class="index-body-all">
 
             <el-col  :span="18" class="index-body-main">
-                <div v-for="(arts) in this.$store.state.docs"
+                <div v-for="arts of docList"
                      :key="arts.id"
                      class="index-body-docs-item"
                     @click="selectDoc(arts)">
@@ -26,7 +26,6 @@
 
 <script>
     import Vue from 'vue'
-    import api from '../api/rpc'
     import {Menu, Submenu, MenuItemGroup, MenuItem} from "element-ui";
 
     Vue.use(Menu);
@@ -35,12 +34,23 @@
     Vue.use(Submenu);
     export default {
         name: 'index-body',
-        components:{
-
-        },
         data: function () {
             return {
-                isDoc: false,
+
+            }
+        },
+        computed:{
+            docList(){
+                if(!this.$store.state.docsUpdate){
+                    console.log("update")
+                }
+                this.$store.commit("clearUpdateStat");
+                let output = [];
+                console.log("docList")
+                for (let e of this.$store.state.docs){
+                    output.push(e)
+                }
+                return output
             }
         },
         methods:{

@@ -70,22 +70,22 @@
             },
             render(){
                 let newV = '/' + this.$route.params.docID;
-                message(this,"id:" + newV,'warning');
-                if (this.$store.state.docs[newV].content === ""){
+                console.log('change docs',"id:" + newV);
+                if (this.$store.state.docs.docSet[newV].content === ""){
                     api.getDoc(newV).then(
                         (data)=>{
-                            console.log('data',data)
+                            console.log('data',data);
                             this.$store.commit('updateDoc',newV,data.data.content);
                             this.document = data.data.content
                         }
                     ).catch(
                         err =>{
                             message(this,"获取文章失败"+err,'warning');
-                            this.$router.replace("/404")
+                            // this.$router.replace("/404")
                         }
                     )
                 }
-                this.document = this.$store.state.docs[newV].content || ""
+                this.document = this.$store.state.docs.docSet[newV].content || ""
             }
         },
         mounted() {
@@ -99,17 +99,6 @@
                 selector: ['h2', 'h3'],
                 active: null
             });
-            /*this.document = `<h1>标题</h1>
-                    <p>文章</p>
-                    <h2>1.二级标题</h2>
-                    <h3>1.1三级标题</h3>
-                    <p>文章</p>
-                    <h3>1.2三级标题特别长特别长特别长特别长特别长特别长特别长特别长特别长特别长</h3>
-                    <p>文章</p>
-                    <h2>2.二级标题</h2>
-                    <p>文章</p>
-                    <h2>3.二级标题</h2>
-                    <p>文章</p>`*/
             this.render()
         },
     }

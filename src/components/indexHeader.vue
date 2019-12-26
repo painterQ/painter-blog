@@ -42,8 +42,9 @@
             console.log("create header");
             api.getDocsList({start:'/doc10',length: 10}).then(
                 data =>{
-                    console.log("addDocs",data.data)
+                    console.log("addDocs start",data.data)
                     this.$store.commit('addDocs', data.data)
+                    console.log("addDocs finish",data.data)
                 }
             ).catch(err=>{message(this,"get list err"+err, "error")});
         }
