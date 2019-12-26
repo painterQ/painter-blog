@@ -62,8 +62,35 @@ export default {
  body{
    margin: 0;
    line-height: 1.7;
+   overflow-y:scroll;
  }
- *{
+body::-webkit-scrollbar    /*滚动条整体部分*/
+
+                                    {
+                                      width: 5px;
+                                      height:10px;
+
+                                      background-color:#b5b1b1;
+
+                                    }
+body::-webkit-scrollbar-track       /*scroll轨道背景*/
+                                             {
+                                               -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                                               border-radius: 10px;
+                                               background-color:black;
+
+                                             }
+
+
+
+
+body::-webkit-scrollbar-thumb  /*滚动条中能上下移动的小块*/
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:#b5b1b1;
+}
+*{
    box-sizing: border-box;
  }
 p{

@@ -73,7 +73,9 @@ const store = new Vuex.Store({
             addDocs:
                 (state, range) => {
                     for(let i of range){
+                            console.log("vuex addDocs add doc", i);
                             state.docs[i.id] = i
+                            console.log("test",state.docs[i.id])
                         }
                 },
             setCurrent:

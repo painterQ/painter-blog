@@ -26,6 +26,7 @@
 
 <script>
     import Vue from 'vue'
+    import api from '../api/rpc'
     import {Menu, Submenu, MenuItemGroup, MenuItem} from "element-ui";
 
     Vue.use(Menu);
@@ -47,11 +48,6 @@
                 this.$router.push("/doc" + art.id)
             }
         },
-        created() {
-            console.log("create")
-            this.$store.commit("getDocs", {start:'/doc10',length: 10});
-            this.$store.commit("getDoc");
-        }
     }
 </script>
 

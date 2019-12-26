@@ -56,17 +56,36 @@
                 let list = this.$refs['doc-cateLog'].classList;
                 let h = this.$refs['side-bar'].getBoundingClientRect().top;
                 if ( !this.menuFloat && h < 80 ) {
-                    list.remove(["memu_Static"])
-                    list.add(["memu_Float"])
+                    list.remove("menu_Static")
+                    list.add("menu_Float")
                     this.menuFloat = !this.menuFloat
                     console.log("change float")
                 }
                 if( this.menuFloat && h > 80 ){
-                    list.remove(["memu_Float"])
-                    list.add(["memu_Static"])
+                    list.remove("menu_Float")
+                    list.add("menu_Static")
                     this.menuFloat = !this.menuFloat
                     console.log("change static")
                 }
+            },
+            render(){
+                let newV = '/' + this.$route.params.docID;
+                message(this,"id:" + newV,'warning');
+                if (this.$store.state.docs[newV].content === ""){
+                    api.getDoc(newV).then(
+                        (data)=>{
+                            console.log('data',data)
+                            this.$store.commit('updateDoc',newV,data.data.content);
+                            this.document = data.data.content
+                        }
+                    ).catch(
+                        err =>{
+                            message(this,"获取文章失败"+err,'warning');
+                            this.$router.replace("/404")
+                        }
+                    )
+                }
+                this.document = this.$store.state.docs[newV].content || ""
             }
         },
         mounted() {
@@ -93,35 +112,14 @@
                     <p>文章</p>`*/
             this.render()
         },
-        methods:{
-            render(){
-                let newV = '/' + this.$route.params.docID;
-                message(this,"id:" + newV,'warning');
-                if (this.$store.state.docs[newV].content === ""){
-                    api.getDoc(newV).then(
-                        (data)=>{
-                            console.log('data',data)
-                            this.$store.commit('updateDoc',newV,data.data.content);
-                            this.document = data.data.content
-                        }
-                    ).catch(
-                        err =>{
-                            message(this,"获取文章失败"+err,'warning');
-                            this.$router.push("/404")
-                        }
-                    )
-                }
-                this.document = this.$store.state.docs[newV].content || ""
-            }
-        },
     }
 </script>
 
 <style scoped>
-    .memu_Static {
+    .menu_Static {
         position: static; top: auto;
     }
-    .memu_Float {
+    .menu_Float {
         position: sticky; top: 80px;
     }
     .coffee {

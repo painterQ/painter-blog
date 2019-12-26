@@ -1,6 +1,7 @@
 import Mock from 'mockjs'
 
 Mock.mock('/docs', 'post', (options) => {
+    console.log("api",options.url,options.body);
     let data = JSON.parse(options.body);
     let length = data.length;
     let ret = [];
@@ -11,13 +12,14 @@ Mock.mock('/docs', 'post', (options) => {
         }else {
             tmp = docsList[1]
         }
-        tmp.id = "/doc/" + Math.random() * 1000
-        ret.push()
+        tmp.id = "/doc/doc" + Math.ceil(Math.random() * 1000);
+        ret.push(tmp)
     }
     return ret
 });
 
 Mock.mock(/\/doc\/.+/, 'get', (opt) => {
+    console.log("api",opt.url)
     //opt含有 url、type 和 body 三个属性
     let s = opt.url.split("/");
     let para = s[s.length -1];
