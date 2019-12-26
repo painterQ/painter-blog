@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 const init = {
         "/doc0": {
-            id: '/doc0',
+            id: '/doc/doc0',
             title: "第一篇来自editor的文章",
             subTitle: "随笔",
             tags: ['原创', 'editor'],
@@ -17,7 +17,7 @@ const init = {
         }
         ,
         "/doc1": {
-            id: '/doc1',
+            id: '/doc/doc1',
             title: "第二篇文章",
             subTitle: "随笔",
             tags: ['原创', 'editor'],
@@ -27,7 +27,7 @@ const init = {
         }
         ,
         "/doc2": {
-            id: '/doc2',
+            id: '/doc/doc2',
             title: "第三篇文章",
             subTitle: "随笔",
             tags: ['原创', 'editor'],
@@ -38,7 +38,7 @@ const init = {
         }
         ,
         "/doc3": {
-            id: '/doc3',
+            id: '/doc/doc3',
             title: "第四篇文章",
             subTitle: "随笔",
             tags: ['原创', 'editor'],

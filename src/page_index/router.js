@@ -18,7 +18,12 @@ const routes = [
     },
     {
         path: '/doc/:docID',
-        component: indexDocsBody
+        component: indexDocsBody,
+        /*独享的路由守卫*/
+        beforeEnter: (to, from, next) => {
+            console.log("进入/doc/:docID")
+            next()
+        }
     },
     {
         path: '/tags',

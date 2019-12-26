@@ -24,7 +24,7 @@
                 <!-- 使用外部插件自动生成目录npm i katelog -S-->
                 <!-- https://github.com/KELEN/katelog-->
                 <div ref="side-bar">
-                <div id="doc-cateLog" ref="doc-cateLog"></div>
+                    <div id="doc-cateLog" ref="doc-cateLog"></div>
                 </div>
             </el-col>
         </el-row>
@@ -35,13 +35,14 @@
     import api from '../api/rpc'
     import message from "../api/message";
     import kateLogClass from 'katelog';
+
     export default {
         name: "index-docs-body",
         data: function () {
             return {
                 kateLog: null,
                 document: "",
-                menuFloat : false
+                menuFloat: false
             }
         },
         watch: {
@@ -51,66 +52,70 @@
                 })
             },
         },
-        methods:{
+        methods: {
             menu() {
                 let list = this.$refs['doc-cateLog'].classList;
                 let h = this.$refs['side-bar'].getBoundingClientRect().top;
-                if ( !this.menuFloat && h < 80 ) {
+                if (!this.menuFloat && h < 80) {
                     list.remove("menu_Static")
                     list.add("menu_Float")
                     this.menuFloat = !this.menuFloat
                     console.log("change float")
                 }
-                if( this.menuFloat && h > 80 ){
+                if (this.menuFloat && h > 80) {
                     list.remove("menu_Float")
                     list.add("menu_Static")
                     this.menuFloat = !this.menuFloat
                     console.log("change static")
                 }
             },
-            render(){
+            render() {
                 let newV = '/' + this.$route.params.docID;
-                console.log('change docs',"id:" + newV);
-                if (this.$store.state.docs.docSet[newV].content === ""){
-                    api.getDoc(newV).then(
-                        (data)=>{
-                            console.log('data',data);
-                            this.$store.commit('updateDoc',newV,data.data.content);
-                            this.document = data.data.content
-                        }
-                    ).catch(
-                        err =>{
-                            message(this,"获取文章失败"+err,'warning');
-                            // this.$router.replace("/404")
-                        }
-                    )
-                }
-                this.document = this.$store.state.docs.docSet[newV].content || ""
-            }
-        },
-        mounted() {
-            window.addEventListener('scroll', this.menu, true)
-            this.kateLog = new kateLogClass({
-                contentEl: 'doc-content',
-                catelogEl: 'doc-cateLog',
-                linkClass: 'k-catelog-link',
-                linkActiveClass: 'k-catelog-link-active',
-                // supplyTop: 20,
-                selector: ['h2', 'h3'],
-                active: null
-            });
-            this.render()
-        },
+                console.log('change docs', "id:" + newV);
+                //todo缓存
+                api.getDoc(newV).then(
+                    (data) => {
+                        console.log('data', data);
+                        this.$store.commit('updateDoc', newV, data.data.content);
+                        this.document = data.data.content
+                    }
+                ).catch(
+                    err => {
+                        message(this, "获取文章失败" + err, 'warning');
+                        // this.$router.replace("/404")
+                    }
+                );
+
+            },
+            mounted() {
+                console.log("doc page mounted ")
+                // window.addEventListener('scroll', this.menu, true)
+                this.kateLog = new kateLogClass({
+                    contentEl: 'doc-content',
+                    catelogEl: 'doc-cateLog',
+                    linkClass: 'k-catelog-link',
+                    linkActiveClass: 'k-catelog-link-active',
+                    // supplyTop: 20,
+                    selector: ['h2', 'h3'],
+                    active: null
+                });
+                this.render()
+            },
+        }
     }
 </script>
 
 <style scoped>
     .menu_Static {
-        position: static; top: auto;
+        position: static;
+        top: auto;
     }
+
     .menu_Float {
-        position: sticky; top: 80px;
+        position: sticky;
+        top: 80px;
     }
+
     .coffee {
         font-size: 28px;
         line-height: 58px;
@@ -149,19 +154,23 @@
     }
 
     /*p h1 h2 h3 h4 h5 h6*/
-    main p{
+    main p {
 
     }
-    main h1{
+
+    main h1 {
 
     }
-    main h2{
+
+    main h2 {
 
     }
-    main h3{
+
+    main h3 {
 
     }
-    main h4, main h5, main h6{
+
+    main h4, main h5, main h6 {
 
     }
 </style>
@@ -172,7 +181,7 @@
         word-break: keep-all;
     }
 
-    #doc-cateLog li{
+    #doc-cateLog li {
         display: block;
     }
 

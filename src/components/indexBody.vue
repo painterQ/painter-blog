@@ -55,7 +55,8 @@
         },
         methods:{
             selectDoc(art){
-                this.$router.push("/doc" + art.id)
+                console.log("selectdoc",art.id)
+                this.$router.push(art.id)
             }
         },
     }
