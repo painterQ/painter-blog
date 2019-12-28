@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="index-body-all">
-            <div class="index-body-aside">
+            <index-aside class="index-body-aside">
                 <!--                <strong class="tag-tital"></strong>-->
                 <!-- 使用外部插件自动生成目录npm i katelog -S-->
                 <!-- https://github.com/KELEN/katelog-->
                 <div id="doc-cateLog" ref="doc-cateLog" ></div>
-            </div>
+            </index-aside>
             <div  class="index-body-main">
                 <!-- learn: 插入HTML-->
                 <main id="doc-content" v-html="document"></main>
@@ -30,12 +30,15 @@
 </template>
 
 <script>
-    import api from '../api/rpc'
-    import message from "../api/message";
+
     import kateLogClass from 'katelog';
+    import indexAside from "@/components/indexAside.vue";
 
     export default {
         name: "index-docs-body",
+        components:{
+            indexAside
+        },
         data: function () {
             return {
                 scroll : 0,
@@ -45,8 +48,7 @@
             }
         },
         watch: {
-            document(nv,ov) {
-                console.log("document change, target watch", ov,nv)
+            document() {
                 this.$nextTick(() => {
                     this.kateLog.rebuild();
                 })
@@ -55,37 +57,34 @@
         methods: {
             prevDoc(){
                 //仍然在当前组件，所以只是复用，没有重新触发mounted
-                this.$router.push("/doc/doc0");
-                this.render()
+                let current = this.$route.path.substr(4);
+                let pref = this.$store.state.docs.docSet[current].pref()
+                this.$router.push("/doc" + pref);
             },
             nextDoc(){
-                this.$router.push("/doc/doc3");
-                this.render()
+                let current = this.$route.path.substr(4)
+                let next = this.$store.state.docs.docSet[current].next()
+                this.$router.push("/doc" + next);
             },
-            render() {
-                let newV = '/' + this.$route.params.docID;
-                console.log('change docs', "id:" + newV);
-                //todo缓存
-                api.getDoc({doc:newV}).then(
-                    (data) => {
-                        console.log('data', data);
-                        this.$store.commit('updateDoc', newV, data.data.content);
-                        this.document = data.data
+            render(path) {
+                if(!/^\/doc\/.*/.test(path)){
+                    return
+                }
+                path = path.substr(4)
+                console.log('change docs', "id:" + path);
+                this.$store.state.docs.get(path).then(
+                    (data)=>{
+                        if(data === null){
+                            this.$router.replace("/404");
+                            return
+                        }
+                        this.document = data;
                     }
-                ).catch(
-                    err => {
-                        message(this, "获取文章失败" + err, 'warning');
-                        // this.$router.replace("/404")
-                    }
-                );
-
+                )
             }
         },
         mounted() {
             console.log("doc page mounted ")
-            // window.addEventListener('scroll', ()=>{
-            //     this.scroll = this.$refs['side-bar'].getBoundingClientRect().top
-            // }, true)
             this.kateLog = new kateLogClass({
                 contentEl: 'doc-content',
                 catelogEl: 'doc-cateLog',
@@ -95,9 +94,12 @@
                 selector: ['h2', 'h3'],
                 active: null
             });
-            console.log("doc page render")
-            this.render()
-
+            this.render(this.$route.path)
+        },
+        //组件内的路由守卫
+        beforeRouteUpdate(to,from,next){
+            this.render(to.path)
+            next();
         },
     }
 </script>
@@ -130,32 +132,11 @@
         margin-right: 0.5em;
     }
 
-    .index-body-all{
-        display: flex;
-        flex-flow: column;
-        flex-direction: row-reverse;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
 
-    .index-body-main {
-        align-items: flex-start;
-        margin: 2em;
-        min-width: 30em;
-        max-width: 45em;
-        flex-grow:2;
-    }
-
-    .index-body-aside {
-        align-items: flex-start;
-        border-left: rgba(88, 88, 88, 0.1) 1px solid;
-        margin-left: 1em;
-        flex-grow:1;
-    }
-    #doc-cateLog{
-        position: sticky;
-        top: 200px;
-    }
+    /*#doc-cateLog{*/
+    /*    position: sticky;*/
+    /*    top: 200px;*/
+    /*}*/
 
     /*p h1 h2 h3 h4 h5 h6*/
     main p {
@@ -180,6 +161,29 @@
 </style>
 
 <style>
+    .index-body-all{
+        display: flex;
+        flex-flow: column;
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+    }
+
+    .index-body-main {
+        align-items: flex-start;
+        margin: 2em;
+        width: 20em;
+        flex-grow:2;
+    }
+
+    .index-body-aside {
+        border-left: rgba(88, 88, 88, 0.1) 1px solid;
+        margin: 0 0 0 1em;
+        flex-grow:1;
+        max-width: 10em;
+        /*top: 10px;*/
+        /*position: sticky;*/
+        height: 400px;
+    }
     .k-catelog-link {
         font-size: 0.7em;
         word-break: keep-all;

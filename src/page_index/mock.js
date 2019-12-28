@@ -1,65 +1,98 @@
 import Mock from 'mockjs'
 
+let listOut = ["/doc", "/doca", "/doca/suba", "/doca/subb",
+    "/doca/subb/subsubf", "/doca/subb/subsubg", "/doca/subb/subsubh",
+    "/doca/subd", "/doca/sube", "/doca/subf", "/docb", "/docc", "/docchain",
+    "/docchain/hhh", "/docchain/hhh/sdsdsd/dsadas", "/docchain/hhhs",
+    "/docd", "/doce", "/docf", "/docg", "/doch", "/doci"]
+
 Mock.mock('/docs', 'post', (options) => {
-    console.log("api",options.url,options.body);
+    console.log("api", options.url, options.body);
     let data = JSON.parse(options.body);
     let length = data.length;
+    let start = data.start;
+    let list = JSON.parse(JSON.stringify(listOut))
+
+    let ids = []
+    let firstPref = "";
+    let endNext = ""
+    for (let k = 0 ;k< list.length;k++) {
+        if (start === list[k]) {
+            firstPref = k === 0 ? '/doc' : list[k - 1]
+        }
+        if (firstPref === "") continue;
+        if (length-- === 0) {
+            endNext = k < list.length ? list[k + 1] : list[k]
+            break
+        }
+        ids.push(list[k])
+    }
+    console.log("ids:", ids)
     let ret = [];
     let tmp = null;
-    for (let i = 0;i < length;i ++){
-        if(Math.random()> 0.5){
+    for (let i = 0; i < ids.length; i++) {
+        if (Math.random() > 0.5) {
             //deep copy
             tmp = JSON.parse(JSON.stringify(docsList[0]))
-        }else {
+        } else {
             tmp = JSON.parse(JSON.stringify(docsList[1]))
         }
-        tmp.id = "/doc/doc" + Math.ceil(Math.random() * 1000);
+        tmp.id = ids[i]
+        if (i === 0) {
+            tmp.pref = firstPref
+            tmp.next = ids[i + 1]
+        } else if (i !== ids.length - 1) {
+            tmp.pref = ids[i - 1];
+            tmp.next = ids[i + 1]
+        } else {
+            tmp.pref = ids[i - 1];
+            tmp.next = endNext
+        }
         ret.push(tmp)
     }
-    return ret
+    return {
+        list:ret,
+        total: listOut.length,
+    }
 });
 
-Mock.mock(/\/doc.+/, 'get', (opt) => {
-    console.log("api GET /doc",opt.url,opt.body)
+Mock.mock(/\/doc.*/, 'get', (opt) => {
+    console.log("api GET /doc", opt.url, opt.body)
     //opt含有 url、type 和 body 三个属性
-    let s = opt.url.split("doc");
-    let para = s[s.length -1];
+    let para = opt.url.substr(9);
+    para = decodeURIComponent(para)
     let r = Math.ceil(Math.random() * 10);
-    let ret = "<h1>文章" + para + "...</h1>"
-    while (r > 0){
-        if (r-- > 1){
+    let ret = "<h1>文章" + para + "</h1>"
+    while (r > 0) {
+        if (r-- > 1) {
             ret += "<p>";
-            ret += "文章内容".repeat(Math.ceil(Math.random()*30))
+            ret += "文章内容".repeat(Math.ceil(Math.random() * 30))
             ret += "</p>";
         }
-        if (r % 2 === 0){
+        if (r % 2 === 0) {
             ret += "<h2>二级标题</h2>"
         }
-        if (r%3 === 0){
+        if (r % 3 === 0) {
             ret += "<h3>三级标题</h3>"
         }
-        if (Math.random() > 0.2){
+        if (Math.random() > 0.2) {
             ret += `<img src="/public/img/background.0ed615ed.jpg\\\\" alt="" width="278" height="185" />`
         }
     }
-
     return ret;
 });
 
 let docsList = [
     {
-        id: "",
         title: "第一篇",
-        attr: 'top',
         subTitles: "文档",
-        tags: ["新闻","社会"],
+        tags: ["新闻", "社会"],
         time: Date.now(),
         abstract: '今日（12月12日），2020年春运首日(1月10日)火车票开抢。记者上午查询12306网站发现，春运首日当天的多条热门线路火车票被抢购一空。\n' +
             '\n' +
             '根据12306网站显示的数据，截至今日上午11时，春运首日北京西至郑州、沈阳、西安等热门方向的多个车次火车票售罄。这其中，Z字头列车车票最为抢手。\n',
     },
     {
-        id: "",
         title: "第二篇",
         subTitles: "文档",
         tags: ["新闻"],

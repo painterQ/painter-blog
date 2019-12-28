@@ -1,5 +1,5 @@
 import axios from "axios"
-import { Message } from "element-ui"
+import {Message} from "element-ui"
 
 //  这个baseUrl要根据实际情况进行改变
 axios.defaults.baseURL = "/";

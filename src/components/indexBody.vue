@@ -1,12 +1,15 @@
 <template>
     <div>
-        <el-row class="index-body-all">
-
-            <el-col  :span="18" class="index-body-main">
+        <div class="index-body-all">
+            <div class="index-body-aside">
+                <index-aside>aside</index-aside>
+            </div>
+            <div class="index-body-main">
+                <!--list-->
                 <div v-for="arts of docList"
                      :key="arts.id"
                      class="index-body-docs-item"
-                    @click="selectDoc(arts)">
+                     @click="selectDoc(arts.id)">
                     <h2 class="art">
                         <span v-if="arts.attr" class="arts-top">[置顶]</span>
                         <span>{{arts.title}}</span>
@@ -15,80 +18,98 @@
                     <div>Post by 乔沛杨 on {{arts.time}}</div>
                     <hr/>
                 </div>
-            </el-col>
-
-            <el-col  :span="6" class="index-body-aside">
-                <span>aside</span>
-            </el-col>
-        </el-row>
+                <el-pagination
+                        background
+                        layout="prev, pager, next"
+                        :current-page="this.currentPage"
+                        @current-change="this.handleCurrentChange"
+                        :total=getPaginationNum>
+                </el-pagination>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import Vue from 'vue'
-    import {Menu, Submenu, MenuItemGroup, MenuItem} from "element-ui";
+    import {Pagination} from "element-ui";
+    import indexAside from "@/components/indexAside.vue";
 
-    Vue.use(Menu);
-    Vue.use(MenuItem);
-    Vue.use(MenuItemGroup);
-    Vue.use(Submenu);
+
+    Vue.use(Pagination);
+
     export default {
         name: 'index-body',
-        data: function () {
-            return {
-
+        components: {
+            indexAside,
+        },
+        data(){
+            return{
+                //pagination
+                currentPage: 1
             }
         },
-        computed:{
-            docList(){
-                if(!this.$store.state.docsUpdate){
-                    console.log("update")
-                }
-                this.$store.commit("clearUpdateStat");
-                let output = [];
+        computed: {
+            getPaginationNum(){
+                console.log("getPaginationNum")
+                return this.$store.state.total
+            },
+            docList() {
                 console.log("docList")
-                for (let e of this.$store.state.docs){
-                    output.push(e)
-                }
-                return output
+                let currentList = [];
+                let self = this;
+                return function () {
+                    if (!self.$store.state.docsUpdate) {
+                        return currentList
+                    }
+                    self.$store.commit("setDocListUpdateState", false)
+                    let output = [];
+                    for (let e of self.$store.state.docs) {
+                        output.push(e)
+                    }
+                    currentList = output;
+                    return output
+                }()
             }
         },
-        methods:{
-            selectDoc(art){
-                console.log("selectdoc",art.id)
-                this.$router.push(art.id)
-            }
+        methods: {
+            selectDoc(artID) {
+                console.log("selectdoc", artID)
+                this.$router.push('/doc' + artID)
+            },
+            //pagination
+            handleCurrentChange(){
+                console.log("handleCurrentChange")
+            },
         },
     }
 </script>
 
 <style scoped>
-    .index-body-aside{
-       padding-left: 15px;
-    }
-    .index-body-main{
-        padding-top: 2em;
-    }
-    .index-body-docs-item > div{
-        font-family: 'Lora', 'Times New Roman',serif;
+    .index-body-docs-item > div {
+        font-family: 'Lora', 'Times New Roman', serif;
         color: gray;
         font-style: italic;
         margin: 0 0 1em 0;
     }
-    .index-body-docs-item:hover{
+
+    .index-body-docs-item:hover {
         color: #1c6ca1;
         cursor: pointer;
     }
-    .index-body-docs-item > p{
+
+    .index-body-docs-item > p {
         color: #a3a3a3;
         font-size: 0.7em;
         font-style: italic;
     }
-    .arts-top{
+
+    .arts-top {
         color: orangered;
         margin: 0 10px 0 0;
     }
-    .art{
+
+    .art {
         font-size: 1.1em;
         margin: 0 0 10px 0;
     }

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import indexHeader from "../components/indexHeader";
+    import indexHeader from "@/components/indexHeader";
 
     export default {
         name: 'layout',
@@ -31,7 +31,6 @@
 
     .index-layout-main{
         max-width: 1024px;
-        overflow-y:auto;
         margin: 10px auto;
     }
     /* learn: calc()函数，css3的函数

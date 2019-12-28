@@ -38,21 +38,11 @@
         mounted() {
             window.addEventListener('scroll', this.menu, true)
         },
-        created() {
-            console.log("create header");
-            api.getDocsList({start:'/doc10',length: 10}).then(
-                data =>{
-                    console.log("addDocs start",data.data)
-                    this.$store.commit('addDocs', data.data)
-                    console.log("addDocs finish",data.data)
-                }
-            ).catch(err=>{message(this,"get list err"+err, "error")});
-        }
     }
 </script>
 
 <style scoped>
-    .index-layout-header, .index-header-bar::before{
+    .index-layout-header,.index-header-bar::after{
         background: url("../../public/background.jpg") bottom / cover fixed;
         color: #fff;
         width: 100vw;
@@ -60,7 +50,7 @@
 
     .index-header-title-center{
         margin: 2em auto;
-        width: 100vw;
+        width: 50%;
     }
     .tags > i {
         display: inline-block;
@@ -83,18 +73,25 @@
     .index-header-bar{
         width: 100vw;
         position: fixed;
+        height: calc(1em * 1.6 + 16px);
+        top: 0;
         background: rgba(255, 255, 255, .3);
+        overflow: hidden;
     }
 
-    .index-header-bar::before{
-        position: absolute;
-        top: 0; left: 0;right: 0; bottom: 0;
+    .index-header-bar::after{
+        display: block;
         content: '';
+        position: absolute;
+        height: calc(100% + 40px);
+        width: calc(100% + 40px);
+        top: -20px; left: -20px;
         filter: blur(10px);
         z-index: -1;
     }
 
     .index-header-bar > *{
+        line-height: 1.6;
         padding: 0 10px 2px;
         margin: 7px;
         float: right;
