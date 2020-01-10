@@ -25,7 +25,7 @@ Mock.mock('/docs', 'post', (options) => {
             endNext = k < list.length ? list[k + 1] : list[k]
             break
         }
-        ids.push(list[k])
+        ids.push({id:list[k],index:k})
     }
     console.log("ids:", ids)
     let ret = [];
@@ -37,17 +37,18 @@ Mock.mock('/docs', 'post', (options) => {
         } else {
             tmp = JSON.parse(JSON.stringify(docsList[1]))
         }
-        tmp.id = ids[i]
+        tmp.id = ids[i].id
         if (i === 0) {
             tmp.pref = firstPref
-            tmp.next = ids[i + 1]
+            tmp.next = ids[i + 1].id
         } else if (i !== ids.length - 1) {
-            tmp.pref = ids[i - 1];
-            tmp.next = ids[i + 1]
+            tmp.pref = ids[i - 1].id;
+            tmp.next = ids[i + 1].id
         } else {
-            tmp.pref = ids[i - 1];
+            tmp.pref = ids[i - 1].id;
             tmp.next = endNext
         }
+        tmp.index = ids[i].index
         ret.push(tmp)
     }
     return {
@@ -102,3 +103,8 @@ let docsList = [
             '按照铁路春运火车票互联网和电话订票提前30天发售，车站售票窗口、代售点提前28天发售的规定，2020年1月17日(腊月二十三)的火车票起售时间为2019年12月19日。\n',
     },
 ];
+
+
+Mock.mock(/doc\/number_range.*/,'get',(opt)=>{
+    console.log("mock GET /doc/number_range",opt.url)
+})

@@ -18,8 +18,6 @@
 </template>
 
 <script>
-    import api from '../api/rpc'
-    import message from "../api/message";
     export default {
         name: "index-header",
         data: function(){
@@ -43,7 +41,7 @@
 
 <style scoped>
     .index-layout-header,.index-header-bar::after{
-        background: url("../../public/background.jpg") bottom / cover fixed;
+        background: url("../../public/background.jpg") top / cover fixed;
         color: #fff;
         width: 100vw;
     }

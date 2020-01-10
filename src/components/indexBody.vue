@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="index-body-all">
-            <div class="index-body-aside">
-                <index-aside>aside</index-aside>
-            </div>
+            <index-aside class="index-body-aside">
+                <motto style="margin: 10px 0"></motto>
+            </index-aside>
             <div class="index-body-main">
                 <!--list-->
                 <div v-for="arts of docList"
@@ -22,7 +22,7 @@
                         background
                         layout="prev, pager, next"
                         :current-page="this.currentPage"
-                        @current-change="this.handleCurrentChange"
+                        @current-change="this.totalNum"
                         :total=getPaginationNum>
                 </el-pagination>
             </div>
@@ -34,7 +34,7 @@
     import Vue from 'vue'
     import {Pagination} from "element-ui";
     import indexAside from "@/components/indexAside.vue";
-
+    import Motto from "./motto";
 
     Vue.use(Pagination);
 
@@ -42,20 +42,26 @@
         name: 'index-body',
         components: {
             indexAside,
+            Motto
         },
-        data(){
-            return{
+        data() {
+            return {
                 //pagination
-                currentPage: 1
+                currentPage: 0,
+                //[currentPage * pageSize, (currentPage + 1) * pageSize)
+                pageSize: 5,
+
             }
         },
         computed: {
-            getPaginationNum(){
-                console.log("getPaginationNum")
+            totalNum() {
                 return this.$store.state.total
             },
+            //[currentPage * pageSize, (currentPage + 1) * pageSize)
             docList() {
-                console.log("docList")
+                //1. 计算范围
+                //2. 判断范围内的是都都在中，如果没有，则获取
+                //3. 渲染
                 let currentList = [];
                 let self = this;
                 return function () {
@@ -78,7 +84,7 @@
                 this.$router.push('/doc' + artID)
             },
             //pagination
-            handleCurrentChange(){
+            handleCurrentChange() {
                 console.log("handleCurrentChange")
             },
         },

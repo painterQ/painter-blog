@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const init = [
     {
         id: '/doc',
+        index: 0,
         title: "第一篇来自editor的文章",
         subTitle: "随笔",
         tags: ['原创', 'editor'],
@@ -17,6 +18,7 @@ const init = [
         abstract: '第一篇文章，即将开始美好生活',
     }, {
         id: '/doca',
+        index: 1,
         title: "第二篇文章",
         subTitle: "随笔",
         tags: ['原创', 'editor'],
@@ -26,6 +28,7 @@ const init = [
         abstract: '第一篇文章，即将开始美好生活',
     }, {
         id: '/docb',
+        index: 2,
         title: "第三篇文章",
         subTitle: "随笔",
         tags: ['原创', 'editor'],
@@ -36,6 +39,7 @@ const init = [
         abstract: '第三篇文章，即将开始美好生活',
     }, {
         id: '/docc',
+        index: 3,
         title: "第四篇文章",
         subTitle: "随笔",
         tags: ['原创', 'editor'],
@@ -47,7 +51,6 @@ const init = [
 
 const store = new Vuex.Store({
     state: {
-        viewState: "ListView", //TagsView、DocView
         author: {
             name: "Painter Qiao",
             avatar: "./",

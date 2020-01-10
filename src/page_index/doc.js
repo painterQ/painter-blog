@@ -1,5 +1,6 @@
 class Doc {
     id = "";
+    index = 0;
     title = "";
     subTitle = "";
     tags = [];
@@ -11,6 +12,7 @@ class Doc {
 
     constructor(init = {}){
         this.id = init.id;
+        this.index = init.index;
         this.title = init.title;
         this.subTitle = init.subTitle;
         this.tags = JSON.parse(JSON.stringify(init.tags));

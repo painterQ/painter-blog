@@ -30,7 +30,7 @@ class DocListClass {
     async get(k) {
         console.log("###get doc",k)
         if (this.cache[k] && this.cache[k].length > 0) {
-            console.log("get doc cache", this.cache[k])
+            console.log("get doc cache")
             return this.cache[k];
         }
         if (this.findDocByKey(k) === null){
@@ -61,9 +61,9 @@ class DocListClass {
         }
     }
 
-    async updateList(center='0',length=10) {
-        if (center === "0") return;
-        api.getDocsList({start:center,length: length}).then(
+    async updateList(start='',length=10) {
+        if (start === '') return;
+        api.getDocsList({start:start,length: length}).then(
             data =>{
                 let set = data.data.list
                 for (let index in set){

@@ -19,11 +19,7 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <div id="motto">
-                <p style="font-size:1.2em;color: #f04e3c">飛ばねぇ豚はただの豚だ</p>
-                <p style="font-size:0.8em;">A pig that doesn’t fly is just a pig</p>
-                <span>&ndash;红の豚</span>
-            </div>
+            <motto></motto>
         </el-form>
         <span slot="footer" class="dialog-footer">
                     <el-button @click="loginClear">清 空</el-button>
@@ -37,10 +33,12 @@
     import {Dialog} from 'element-ui'
     import message from "../api/message";
     import api from "../api/rpc";
+    import Motto from "./motto";
 
     vue.use(Dialog);
     export default {
         name: "painter-login",
+        components: {Motto},
         data: function(){
           return{
               mail: "",
@@ -87,13 +85,6 @@
     #login{
         height: 40vh;
     }
-
-    #motto{
-        border:1px solid #f0a591;
-        margin: 4em auto;
-        box-sizing: border-box;
-    }
-
 
     #motto > p{
         text-align: center;
